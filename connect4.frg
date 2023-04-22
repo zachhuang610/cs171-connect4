@@ -51,7 +51,7 @@ pred Oturn[b: Board] {
     subtract[countPiece[b, X],1] = countPiece[b, O]
 }
 
-// defines starting state
+// Defines the initial board (no marks made)
 pred starting[b: Board] {
     all r, c: Index | no b.places[r][c]
 }
