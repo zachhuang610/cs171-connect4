@@ -40,13 +40,12 @@ pred Oturn[b: Board] {
     add[#{row, col: Int | b.board[row][col] = O}, 1]
 }
 
-// Defines the initial board (no marks made)
+// defines starting state
 pred starting[b: Board] {
     all row, col: Int | 
         no b.board[row][col]
 }
 
-// Defines the lose condition (player eats poisoned (0,0) square)
 pred lost[b: Board, p: Player] {
     b.board[0][0] = p
 }
