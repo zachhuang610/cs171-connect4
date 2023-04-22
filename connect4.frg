@@ -3,17 +3,8 @@
 abstract sig Player{}
 one sig X, O extends Player{}
 
-abstract sig Index {}
-one sig A extends Index {}
-one sig B extends Index {}
-one sig C extends Index {}
-one sig D extends Index {}
-one sig E extends Index {}
-one sig F extends Index {}
-one sig G extends Index {}
-
 sig Board {
-    places: pfunc Index -> Index -> Player
+    board: pfunc Int -> Int -> Player
 }
 
 one sig Game {
@@ -36,74 +27,58 @@ pred allWellformed {
     }
 }
 
-fun countPiece[brd: Board, p: Player]: one Int {
-  #{r,c: Index | brd.places[r][c] = p}
-}
-
 // Checks if it is X's turn (X starts)
 pred Xturn[b: Board] {
     // Same number of X and O on board
-    countPiece[b, X] = countPiece[b, O]
+    #{row, col: Int | b.board[row][col] = X} = 
+    #{row, col: Int | b.board[row][col] = O}
 }
 
 // Checks if it is O's turn
 pred Oturn[b: Board] {
-    subtract[countPiece[b, X],1] = countPiece[b, O]
+    #{row, col: Int | b.board[row][col] = X} = 
+    add[#{row, col: Int | b.board[row][col] = O}, 1]
 }
 
 // Defines the initial board (no marks made)
 pred starting[b: Board] {
-    all r, c: Index | no b.places[r][c]
+    all row, col: Int | 
+        no b.board[row][col]
 }
 
-pred winH[b: Board, p: Player] {
-    some r: Index | all c: Index |
-        b.places[r][c] = p
-}
-
-pred winV[b: Board, p: Player] {
-    some c: Index | all r: Index |
-        b.places[r][c] = p
-}
-
-pred winD[b: Board, p: Player] {
-    (b.places[A][A] = p and 
-     b.places[B][B] = p and
-     b.places[C][C] = p)
-    or
-    (b.places[A][C] = p and 
-     b.places[B][B] = p and
-     b.places[C][A] = p)
-}
-
-// Defines the win condition (player eats poisoned (0,0) square)
-pred winning[b: Board, p: Player] {
-  winH[b, p] or winV[b, p] or winD[b, p]
+// Defines the lose condition (player eats poisoned (0,0) square)
+pred lost[b: Board, p: Player] {
+    b.board[0][0] = p
 }
 
 // Defines a valid move
-pred move[pre: Board, post: Board, p: Player, r: Index, c: Index] {
-    -- GUARD (required to be able to make the move): 
-    no pre.places[r][c]         -- no move there yet
-    p = X implies xturn[pre]    -- correct turn
-    p = O implies oturn[pre]    -- correct turn
-	-- TRANSITION (what does the post-move board look like?)
-    --     Add the mark:
-	post.places[r][c] = p    
-    --     Assert that no other squares change (this is called a "frame condition"):
-    all r2, c2: Index | (r2!=r or c2!=c) implies {
-        post.places[r2][c2] = pre.places[r2][c2]
-    }
+pred move[pre: Board, post: Board, row: Int, col: Int, p: Player] { 
+    // no move already there
+    no pre.board[row][col] 
+    // appropriate turn
+    p = X implies Xturn[pre]
+    p = O implies Oturn[pre]  
+
+    // There is either a piece below it or it is at row = 0;
+	row = 0 or one pre.board[row-1][col]
+
+    // Take the move
+    post.board[row][col] = p
+
+    // Nothing else changes
+    all row2: Int, col2: Int | (row!=row2 or col!=col2) implies {                
+        post.board[row2][col2] = pre.board[row2][col2]     
+    } 
 }
 
-// pred doNothing[pre: Board, post: Board] {
-//     // If some player has lost
-//     some p: Player | lost[pre, p]
+pred doNothing[pre: Board, post: Board] {
+    // If some player has lost
+    some p: Player | lost[pre, p]
 
-//     // Change nothing
-//     all row2: Int, col2: Int | 
-//         post.board[row2][col2] = pre.board[row2][col2]
-// }
+    // Change nothing
+    all row2: Int, col2: Int | 
+        post.board[row2][col2] = pre.board[row2][col2]
+}
 
 pred traces {
     // Start at initial state
@@ -111,11 +86,11 @@ pred traces {
 
     // All other states are reached by move or doNothing
     all b: Board | some Game.next[b] implies {
-        some row, col: Index, p: Player | {
-            move[b, Game.next[b], p, row, col]            
+        some row, col: Int, p: Player | {
+            move[b, Game.next[b], row, col, p]            
         }
-        // or
-        //     doNothing[b, Game.next[b]]
+        or
+            doNothing[b, Game.next[b]]
     }
 }
 
