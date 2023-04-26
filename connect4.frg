@@ -64,30 +64,27 @@ pred wonV[b: Board, p: Player] {
     }
 }
 
-pred wonD[b: Board, p: Player] {
+pred wonDUpwards[b: Board, p: Player] {
     some row, col: Int | row < 4 and row >= 0 and col < 4 and col >= 0{
-        (
-            b.board[row, col] = p
-            b.board[row + 1, col + 1] = p
-            b.board[row + 2, col + 2] = p
-            b.board[row + 3, col + 3] = p
-        )
+        b.board[row, col] = p
+        b.board[row + 1, col + 1] = p
+        b.board[row + 2, col + 2] = p
+        b.board[row + 3, col + 3] = p
     }
-    or
-    some row, col: Int | row <=6 and row > 2 and col < 4 and col >= 0
-        or
-        (
-            b.board[row, col] = p
-            b.board[row - 1, col + 1] = p
-            b.board[row - 2, col + 2] = p
-            b.board[row - 3, col + 3] = p
-        )
+}
+
+pred wonDDownwards[b: Board, p: Player] {
+    some row, col: Int | row <=6 and row > 2 and col < 4 and col >= 0 {
+        b.board[row, col] = p
+        b.board[row - 1, col + 1] = p
+        b.board[row - 2, col + 2] = p
+        b.board[row - 3, col + 3] = p
     }
 }
 
 // Defines the win condition (player wins horizontally, vertically, or diagonally)
 pred won[b: Board, p: Player] {
-    wonH[b, p] or wonV[b, p] or wonD[b, p]
+    wonH[b, p] or wonV[b, p] or wonDUpwards[b, p] or wonDDownwards[b, p]
 }
 
 // Defines a valid move
