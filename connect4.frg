@@ -47,38 +47,38 @@ pred starting[b: Board] {
 }
 
 pred wonH[b: Board, p: Player] {
-    some row, col: Int | col < 4 and col >= 0{
+    some row, col: Int | col < 4 and col >= 0 => {
         b.board[row, col] = p
-        b.board[row, col+1] = p
-        b.board[row, col+2] = p
-        b.board[row, col+3] = p
+        b.board[row, add[col, 1]] = p
+        b.board[row, add[col, 2]] = p
+        b.board[row, add[col, 3]] = p
     }
 }
 
 pred wonV[b: Board, p: Player] {
-    some row, col: Int | row < 4 and row >= 0 {
+    some row, col: Int | row < 4 and row >= 0 => {
         b.board[row, col] = p
-        b.board[row + 1, col] = p
-        b.board[row + 2, col] = p
-        b.board[row + 3, col] = p
+        b.board[add[row, 1], col] = p
+        b.board[add[row, 2], col] = p
+        b.board[add[row, 3], col] = p
     }
 }
 
 pred wonDUpwards[b: Board, p: Player] {
-    some row, col: Int | row < 4 and row >= 0 and col < 4 and col >= 0{
+    some row, col: Int | row < 4 and row >= 0 and col < 4 and col >= 0 => {
         b.board[row, col] = p
-        b.board[row + 1, col + 1] = p
-        b.board[row + 2, col + 2] = p
-        b.board[row + 3, col + 3] = p
+        b.board[add[row, 1], add[col, 1]] = p
+        b.board[add[row, 2], add[col, 2]] = p
+        b.board[add[row, 3], add[col, 3]] = p
     }
 }
 
 pred wonDDownwards[b: Board, p: Player] {
-    some row, col: Int | row <=6 and row > 2 and col < 4 and col >= 0 {
+    some row, col: Int | row <=6 and row > 2 and col < 4 and col >= 0 => {
         b.board[row, col] = p
-        b.board[row - 1, col + 1] = p
-        b.board[row - 2, col + 2] = p
-        b.board[row - 3, col + 3] = p
+        b.board[subtract[row, 1], add[col, 1]] = p
+        b.board[subtract[row, 2], add[col, 2]] = p
+        b.board[subtract[row, 3], add[col, 3]] = p
     }
 }
 
@@ -96,7 +96,7 @@ pred move[pre: Board, post: Board, row: Int, col: Int, p: Player] {
     p = O implies Oturn[pre]  
 
     // There is either a piece below it or it is at row = 0;
-	row = 0 or one pre.board[row-1][col]
+	row = 0 or one pre.board[subtract[row, 1]][col]
 
     // Take the move
     post.board[row][col] = p
