@@ -15,7 +15,7 @@ one sig Game {
 // Basic wellformedness check
 pred wellformed[b: Board] {
     all row, col: Int | {
-        (row < 0 or row > 7 or col < 0 or col > 7) implies
+        (row < 0 or row > 6 or col < 0 or col > 6) implies
         no b.board[row][col]
     }
 }
@@ -125,8 +125,8 @@ pred traces {
         some row, col: Int, p: Player | {
             move[b, Game.next[b], row, col, p]            
         }
-        or
-            doNothing[b, Game.next[b]]
+        // or
+        // doNothing[b, Game.next[b]]
     }
 }
 
