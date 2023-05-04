@@ -2,12 +2,23 @@ const d3 = require('d3')
 d3.selectAll("svg > *").remove();
 
 function printValue(row, col, yoffset, value) {
-  d3.select(svg)
-    .append("text")
-    .style("fill", "black")
-    .attr("x", (col)*10)
-    .attr("y", (row)*14 + yoffset)
-    .text(value);
+    if (String(value) === 'X') {
+        d3.select(svg)
+        .append("text")
+        .style("fill", "black")
+        .attr("x", (col)*10)
+        .attr("y", (row)*14 + yoffset)
+        .text('O');
+    }
+    else if (String(value) === 'O') {
+        d3.select(svg)
+        .append("text")
+        .style("fill", "red")
+        .attr("x", (col)*10)
+        .attr("y", (row)*14 + yoffset)
+        .text('O');
+    }
+  
 }
 
 function printState(stateAtom, yoffset) {
