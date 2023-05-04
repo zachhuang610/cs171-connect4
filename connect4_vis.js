@@ -42,14 +42,14 @@ function printState(stateAtom, xoffset, yoffset) {
 }
 
 
-var xoffset = 50
+var xoffset = 0
 var yoffset = 0
 for(b = 0; b <= 20; b++) {  
   if(Board.atom("Board"+b) != null)
     printState(Board.atom("Board"+b), xoffset, yoffset)
-  xoffset = xoffset + 150
+  xoffset = xoffset + 90 
   if (xoffset > 500) {
-	xoffset = 50
-	yoffset = yoffset + 150
+	xoffset = 0
+	yoffset = yoffset + 110
   }
 }
