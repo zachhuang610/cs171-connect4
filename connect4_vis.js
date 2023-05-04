@@ -32,7 +32,7 @@ function printState(stateAtom, xoffset, yoffset) {
   
   d3.select(svg)
     .append('rect')
-    .attr('x', xoffset+1)
+    .attr('x', xoffset+7)
     .attr('y', yoffset+1)
     .attr('width', 77)
     .attr('height', 100)
@@ -42,14 +42,14 @@ function printState(stateAtom, xoffset, yoffset) {
 }
 
 
-var xoffset = 0
+var xoffset = 50
 var yoffset = 0
 for(b = 0; b <= 20; b++) {  
   if(Board.atom("Board"+b) != null)
     printState(Board.atom("Board"+b), xoffset, yoffset)
-  xoffset = xoffset + 100
+  xoffset = xoffset + 150
   if (xoffset > 500) {
-	xoffset = 0
+	xoffset = 50
 	yoffset = yoffset + 150
   }
 }
