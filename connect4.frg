@@ -1,15 +1,14 @@
-#lang forge/bsl
+#lang forge
+
+option problem_type temporal
+option max_tracelength 4
+
 
 abstract sig Player{}
 one sig X, O extends Player{}
 
 sig Board {
-    board: pfunc Int -> Int -> Player
-}
-
-one sig Game {
-    initialState: one Board,
-    next: pfunc Board -> Board
+    var board: pfunc Int -> Int -> Player
 }
 
 // Basic wellformedness check
@@ -41,7 +40,7 @@ pred Oturn[b: Board] {
 }
 
 // Defines the initial board (no marks made)
-pred starting[b: Board] {
+pred init[b: Board] {
     all row, col: Int | 
         no b.board[row][col]
 }
@@ -88,7 +87,7 @@ pred won[b: Board, p: Player] {
 }
 
 // Defines a valid move
-pred move[pre: Board, post: Board, row: Int, col: Int, p: Player] { 
+pred move[pre: Board, row: Int, col: Int, p: Player] { 
     // no move already there
     no pre.board[row][col] 
     // appropriate turn
@@ -99,42 +98,45 @@ pred move[pre: Board, post: Board, row: Int, col: Int, p: Player] {
 	row = 0 or one pre.board[subtract[row, 1]][col]
 
     // Take the move
-    post.board[row][col] = p
+    pre.board'[row][col] = p
 
     // Nothing else changes
     all row2: Int, col2: Int | (row!=row2 or col!=col2) implies {                
-        post.board[row2][col2] = pre.board[row2][col2]     
+        pre.board'[row2][col2] = pre.board[row2][col2]     
     } 
 }
 
-pred doNothing[pre: Board, post: Board] {
+pred doNothing[pre: Board] {
     // If some player has won
     some p: Player | won[pre, p]
 
     // Change nothing
     all row2: Int, col2: Int | 
-        post.board[row2][col2] = pre.board[row2][col2]
+        pre.board'[row2][col2] = pre.board[row2][col2]
 }
 
 pred traces {
     // Start at initial state
-    starting[Game.initialState]
+	all b: Board | wellformed[b]
+	all b: Board | {
+		some row, col: Int, p: Player | always {move[b, row, col, p]}
+	}
+	some b: Board, p: Player | eventually {won[b,p]}
 
     // All other states are reached by move or doNothing
-    all b: Board | some Game.next[b] implies {
-        some row, col: Int, p: Player | {
-            move[b, Game.next[b], row, col, p]            
-        }
-        // or
-        // doNothing[b, Game.next[b]]
-    }
+    // all b: Board | some Game.next[b] implies {
+    //     some row, col: Int, p: Player | {
+    //         move[b, Game.next[b], row, col, p]            
+    //     }
+    //     // or
+    //     // doNothing[b, Game.next[b]]
+    // }
 }
 
 // Example run 
 // (see tests for more, particularly test expects that check winning) – this 
 // run is really just for demonstration, and it's possible that no one wins yet
 // with 10 Board. We show that someone will win eventually in testing.
-run {
-    allWellformed
-    traces
-} for 10 Board for {next is linear}
+test expect {
+	traces is sat
+}
