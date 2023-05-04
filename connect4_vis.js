@@ -1,12 +1,12 @@
 const d3 = require('d3')
 d3.selectAll("svg > *").remove();
 
-function printValue(row, col, yoffset, value) {
+function printValue(row, col, xoffset, yoffset, value) {
     if (String(value) === 'X') {
         d3.select(svg)
         .append("text")
         .style("fill", "black")
-        .attr("x", (col)*10)
+        .attr("x", (col)*10 + xoffset)
         .attr("y", (row)*14 + yoffset)
         .text('O');
     }
@@ -14,17 +14,17 @@ function printValue(row, col, yoffset, value) {
         d3.select(svg)
         .append("text")
         .style("fill", "red")
-        .attr("x", (col)*10)
+        .attr("x", (col)*10 + xoffset)
         .attr("y", (row)*14 + yoffset)
         .text('O');
     }
   
 }
 
-function printState(stateAtom, yoffset) {
+function printState(stateAtom, xoffset, yoffset) {
   for (r = 0; r <= 7; r++) {
     for (c = 0; c <= 7; c++) {
-      printValue(r, c, yoffset,
+      printValue(r, c, xoffset, yoffset,
                  stateAtom.board[7-r][7-c]
                  .toString().substring(0,1))  
     }
@@ -32,7 +32,7 @@ function printState(stateAtom, yoffset) {
   
   d3.select(svg)
     .append('rect')
-    .attr('x', 5)
+    .attr('x', xoffset+1)
     .attr('y', yoffset+1)
     .attr('width', 77)
     .attr('height', 100)
@@ -42,9 +42,14 @@ function printState(stateAtom, yoffset) {
 }
 
 
-var offset = 0
-for(b = 0; b <= 10; b++) {  
+var xoffset = 0
+var yoffset = 0
+for(b = 0; b <= 20; b++) {  
   if(Board.atom("Board"+b) != null)
-    printState(Board.atom("Board"+b), offset)  
-  offset = offset + 150
+    printState(Board.atom("Board"+b), xoffset, yoffset)
+  xoffset = xoffset + 100
+  if (xoffset > 500) {
+	xoffset = 0
+	yoffset = yoffset + 150
+  }
 }

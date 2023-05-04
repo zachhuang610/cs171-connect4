@@ -137,4 +137,4 @@ pred traces {
 run {
     allWellformed
     traces
-} for 10 Board for {next is linear}
+} for 20 Board for {next is linear}
