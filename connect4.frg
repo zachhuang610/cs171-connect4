@@ -47,7 +47,7 @@ pred starting[b: Board] {
 }
 
 pred wonH[b: Board, p: Player] {
-    some row, col: Int | col < 4 and col >= 0 => {
+    some row, col: Int | col < 4 and col >= 0 and row >= 0 and row <= 6 => {
         b.board[row, col] = p
         b.board[row, add[col, 1]] = p
         b.board[row, add[col, 2]] = p
@@ -56,7 +56,7 @@ pred wonH[b: Board, p: Player] {
 }
 
 pred wonV[b: Board, p: Player] {
-    some row, col: Int | row < 4 and row >= 0 => {
+    some row, col: Int | row < 4 and row >= 0 and col >= 0 and col <= 6=> {
         b.board[row, col] = p
         b.board[add[row, 1], col] = p
         b.board[add[row, 2], col] = p
@@ -84,7 +84,632 @@ pred wonDDownwards[b: Board, p: Player] {
 
 // Defines the win condition (player wins horizontally, vertically, or diagonally)
 pred won[b: Board, p: Player] {
-    wonH[b, p] or wonV[b, p] or wonDUpwards[b, p] or wonDDownwards[b, p]
+    // wonH[b, p]
+    // or
+    // wonV[b, p]
+    // or
+    {
+        b.board[0,0] = p
+        b.board[1,0] = p
+        b.board[2,0] = p
+        b.board[3,0] = p
+    }
+    or
+    {
+        b.board[1,0] = p
+        b.board[2,0] = p
+        b.board[3,0] = p
+        b.board[4,0] = p
+    }
+    or
+    {
+        b.board[2,0] = p
+        b.board[3,0] = p
+        b.board[4,0] = p
+        b.board[5,0] = p
+    }
+    or
+    {
+        b.board[3,0] = p
+        b.board[4,0] = p
+        b.board[5,0] = p
+        b.board[6,0] = p
+    }
+    or
+    {
+        b.board[0,1] = p
+        b.board[1,1] = p
+        b.board[2,1] = p
+        b.board[3,1] = p
+    }
+    or
+    {
+        b.board[1,1] = p
+        b.board[2,1] = p
+        b.board[3,1] = p
+        b.board[4,1] = p
+    }
+    or
+    {
+        b.board[2,1] = p
+        b.board[3,1] = p
+        b.board[4,1] = p
+        b.board[5,1] = p
+    }
+    or
+    {
+        b.board[3,1] = p
+        b.board[4,1] = p
+        b.board[5,1] = p
+        b.board[6,1] = p
+    }
+    or
+    {
+        b.board[0,2] = p
+        b.board[1,2] = p
+        b.board[2,2] = p
+        b.board[3,2] = p
+    }
+    or
+    {
+        b.board[1,2] = p
+        b.board[2,2] = p
+        b.board[3,2] = p
+        b.board[4,2] = p
+    }
+    or
+    {
+        b.board[2,2] = p
+        b.board[3,2] = p
+        b.board[4,2] = p
+        b.board[5,2] = p
+    }
+    or
+    {
+        b.board[3,2] = p
+        b.board[4,2] = p
+        b.board[5,2] = p
+        b.board[6,2] = p
+    }
+    or
+    {
+        b.board[0,3] = p
+        b.board[1,3] = p
+        b.board[2,3] = p
+        b.board[3,3] = p
+    }
+    or
+    {
+        b.board[1,3] = p
+        b.board[2,3] = p
+        b.board[3,3] = p
+        b.board[4,3] = p
+    }
+    or
+    {
+        b.board[2,3] = p
+        b.board[3,3] = p
+        b.board[4,3] = p
+        b.board[5,3] = p
+    }
+    or
+    {
+        b.board[3,3] = p
+        b.board[4,3] = p
+        b.board[5,3] = p
+        b.board[6,3] = p
+    }
+    or
+    {
+        b.board[0,4] = p
+        b.board[1,4] = p
+        b.board[2,4] = p
+        b.board[3,4] = p
+    }
+    or
+    {
+        b.board[1,4] = p
+        b.board[2,4] = p
+        b.board[3,4] = p
+        b.board[4,4] = p
+    }
+    or
+    {
+        b.board[2,4] = p
+        b.board[3,4] = p
+        b.board[4,4] = p
+        b.board[5,4] = p
+    }
+    or
+    {
+        b.board[3,4] = p
+        b.board[4,4] = p
+        b.board[5,4] = p
+        b.board[6,4] = p
+    }
+    or
+    {
+        b.board[0,5] = p
+        b.board[1,5] = p
+        b.board[2,5] = p
+        b.board[3,5] = p
+    }
+    or
+    {
+        b.board[1,5] = p
+        b.board[2,5] = p
+        b.board[3,5] = p
+        b.board[4,5] = p
+    }
+    or
+    {
+        b.board[2,5] = p
+        b.board[3,5] = p
+        b.board[4,5] = p
+        b.board[5,5] = p
+    }
+    or
+    {
+        b.board[3,5] = p
+        b.board[4,5] = p
+        b.board[5,5] = p
+        b.board[6,5] = p
+    }
+    or
+    {
+        b.board[0,6] = p
+        b.board[1,6] = p
+        b.board[2,6] = p
+        b.board[3,6] = p
+    }
+    or
+    {
+        b.board[1,6] = p
+        b.board[2,6] = p
+        b.board[3,6] = p
+        b.board[4,6] = p
+    }
+    or
+    {
+        b.board[2,6] = p
+        b.board[3,6] = p
+        b.board[4,6] = p
+        b.board[5,6] = p
+    }
+    or
+    {
+        b.board[3,6] = p
+        b.board[4,6] = p
+        b.board[5,6] = p
+        b.board[6,6] = p
+    }
+    or
+    //Horizontal
+    {
+        b.board[0,0] = p
+        b.board[0,1] = p
+        b.board[0,2] = p
+        b.board[0,3] = p
+    }
+    or
+    {
+        b.board[0,1] = p
+        b.board[0,2] = p
+        b.board[0,3] = p
+        b.board[0,4] = p
+    }
+    or
+    {
+        b.board[0,2] = p
+        b.board[0,3] = p
+        b.board[0,4] = p
+        b.board[0,5] = p
+    }
+    or
+    {
+        b.board[0,3] = p
+        b.board[0,4] = p
+        b.board[0,5] = p
+        b.board[0,6] = p
+    }
+    or
+    {
+        b.board[1,0] = p
+        b.board[1,1] = p
+        b.board[1,2] = p
+        b.board[1,3] = p
+    }
+    or
+    {
+        b.board[1,1] = p
+        b.board[1,2] = p
+        b.board[1,3] = p
+        b.board[1,4] = p
+    }
+    or
+    {
+        b.board[1,2] = p
+        b.board[1,3] = p
+        b.board[1,4] = p
+        b.board[1,5] = p
+    }
+    or
+    {
+        b.board[1,3] = p
+        b.board[1,4] = p
+        b.board[1,5] = p
+        b.board[1,6] = p
+    }
+    or
+    {
+        b.board[2,0] = p
+        b.board[2,1] = p
+        b.board[2,2] = p
+        b.board[2,3] = p
+    }
+    or
+    {
+        b.board[2,1] = p
+        b.board[2,2] = p
+        b.board[2,3] = p
+        b.board[2,4] = p
+    }
+    or
+    {
+        b.board[2,2] = p
+        b.board[2,3] = p
+        b.board[2,4] = p
+        b.board[2,5] = p
+    }
+    or
+    {
+        b.board[2,3] = p
+        b.board[2,4] = p
+        b.board[2,5] = p
+        b.board[2,6] = p
+    }
+    or
+    {
+        b.board[3,0] = p
+        b.board[3,1] = p
+        b.board[3,2] = p
+        b.board[3,3] = p
+    }
+    or
+    {
+        b.board[3,1] = p
+        b.board[3,2] = p
+        b.board[3,3] = p
+        b.board[3,4] = p
+    }
+    or
+    {
+        b.board[3,2] = p
+        b.board[3,3] = p
+        b.board[3,4] = p
+        b.board[3,5] = p
+    }
+    or
+    {
+        b.board[3,3] = p
+        b.board[3,4] = p
+        b.board[3,5] = p
+        b.board[3,6] = p
+    }
+    or
+    {
+        b.board[4,0] = p
+        b.board[4,1] = p
+        b.board[4,2] = p
+        b.board[4,3] = p
+    }
+    or
+    {
+        b.board[4,1] = p
+        b.board[4,2] = p
+        b.board[4,3] = p
+        b.board[4,4] = p
+    }
+    or
+    {
+        b.board[4,2] = p
+        b.board[4,3] = p
+        b.board[4,4] = p
+        b.board[4,5] = p
+    }
+    or
+    {
+        b.board[4,3] = p
+        b.board[4,4] = p
+        b.board[4,5] = p
+        b.board[4,6] = p
+    }
+    or
+    {
+        b.board[5,0] = p
+        b.board[5,1] = p
+        b.board[5,2] = p
+        b.board[5,3] = p
+    }
+    or
+    {
+        b.board[5,1] = p
+        b.board[5,2] = p
+        b.board[5,3] = p
+        b.board[5,4] = p
+    }
+    or
+    {
+        b.board[5,2] = p
+        b.board[5,3] = p
+        b.board[5,4] = p
+        b.board[5,5] = p
+    }
+    or
+    {
+        b.board[5,3] = p
+        b.board[5,4] = p
+        b.board[5,5] = p
+        b.board[5,6] = p
+    }
+    or
+    {
+        b.board[6,0] = p
+        b.board[6,1] = p
+        b.board[6,2] = p
+        b.board[6,3] = p
+    }
+    or
+    {
+        b.board[6,1] = p
+        b.board[6,2] = p
+        b.board[6,3] = p
+        b.board[6,4] = p
+    }
+    or
+    {
+        b.board[6,2] = p
+        b.board[6,3] = p
+        b.board[6,4] = p
+        b.board[6,5] = p
+    }
+    or
+    {
+        b.board[6,3] = p
+        b.board[6,4] = p
+        b.board[6,5] = p
+        b.board[6,6] = p
+    }
+    or
+    //Diagnoal
+    {
+        b.board[0,0] = p
+        b.board[1,1] = p
+        b.board[2,2] = p
+        b.board[3,3] = p
+    }
+    or
+    {
+        b.board[1,0] = p
+        b.board[2,1] = p
+        b.board[3,2] = p
+        b.board[4,3] = p
+    }
+    or
+    {
+        b.board[2,0] = p
+        b.board[3,1] = p
+        b.board[4,2] = p
+        b.board[5,3] = p
+    }
+    or
+    {
+        b.board[3,0] = p
+        b.board[4,1] = p
+        b.board[5,2] = p
+        b.board[6,3] = p
+    }
+    or
+    {
+        b.board[0,1] = p
+        b.board[1,2] = p
+        b.board[2,3] = p
+        b.board[3,4] = p
+    }
+    or
+    {
+        b.board[1,1] = p
+        b.board[2,2] = p
+        b.board[3,3] = p
+        b.board[4,4] = p
+    }
+    or
+    {
+        b.board[2,1] = p
+        b.board[3,2] = p
+        b.board[4,3] = p
+        b.board[5,4] = p
+    }
+    or
+    {
+        b.board[3,1] = p
+        b.board[4,2] = p
+        b.board[5,3] = p
+        b.board[6,4] = p
+    }
+    or
+    {
+        b.board[0,2] = p
+        b.board[1,3] = p
+        b.board[2,4] = p
+        b.board[3,5] = p
+    }
+    or
+    {
+        b.board[1,2] = p
+        b.board[2,3] = p
+        b.board[3,4] = p
+        b.board[4,5] = p
+    }
+    or
+    {
+        b.board[2,2] = p
+        b.board[3,3] = p
+        b.board[4,4] = p
+        b.board[5,5] = p
+    }
+    or
+    {
+        b.board[3,2] = p
+        b.board[4,3] = p
+        b.board[5,4] = p
+        b.board[6,5] = p
+    }
+    or
+    {
+        b.board[0,3] = p
+        b.board[1,4] = p
+        b.board[2,5] = p
+        b.board[3,6] = p
+    }
+    or
+    {
+        b.board[1,3] = p
+        b.board[2,4] = p
+        b.board[3,5] = p
+        b.board[4,6] = p
+    }
+    or
+    {
+        b.board[2,3] = p
+        b.board[3,4] = p
+        b.board[4,5] = p
+        b.board[5,6] = p
+    }
+    or
+    {
+        b.board[3,3] = p
+        b.board[4,4] = p
+        b.board[5,5] = p
+        b.board[6,6] = p
+    }
+    or
+    // Downwards diagonal
+    {
+        b.board[0,3] = p
+        b.board[1,2] = p
+        b.board[2,1] = p
+        b.board[3,0] = p
+    }
+    or
+    {
+        b.board[1,3] = p
+        b.board[2,2] = p
+        b.board[3,1] = p
+        b.board[4,0] = p
+    }
+    or
+    {
+        b.board[2,3] = p
+        b.board[3,2] = p
+        b.board[4,1] = p
+        b.board[5,0] = p
+    }
+    or
+    {
+        b.board[3,3] = p
+        b.board[4,2] = p
+        b.board[5,1] = p
+        b.board[6,0] = p
+    }
+    or
+    {
+        b.board[0,4] = p
+        b.board[1,3] = p
+        b.board[2,2] = p
+        b.board[3,1] = p
+    }
+    or
+    {
+        b.board[1,4] = p
+        b.board[2,3] = p
+        b.board[3,2] = p
+        b.board[4,1] = p
+    }
+    or
+    {
+        b.board[2,4] = p
+        b.board[3,3] = p
+        b.board[4,2] = p
+        b.board[5,1] = p
+    }
+    or
+    {
+        b.board[3,4] = p
+        b.board[4,3] = p
+        b.board[5,2] = p
+        b.board[6,1] = p
+    }
+    or
+    {
+        b.board[0,5] = p
+        b.board[1,4] = p
+        b.board[2,3] = p
+        b.board[3,2] = p
+    }
+    or
+    {
+        b.board[1,5] = p
+        b.board[2,4] = p
+        b.board[3,3] = p
+        b.board[4,2] = p
+    }
+    or
+    {
+        b.board[2,5] = p
+        b.board[3,4] = p
+        b.board[4,3] = p
+        b.board[5,2] = p
+    }
+    or
+    {
+        b.board[3,5] = p
+        b.board[4,4] = p
+        b.board[5,3] = p
+        b.board[6,2] = p
+    }
+    or
+    {
+        b.board[0,6] = p
+        b.board[1,5] = p
+        b.board[2,4] = p
+        b.board[3,3] = p
+    }
+    or
+    {
+        b.board[1,6] = p
+        b.board[2,5] = p
+        b.board[3,4] = p
+        b.board[4,3] = p
+    }
+    or
+    {
+        b.board[2,6] = p
+        b.board[3,5] = p
+        b.board[4,4] = p
+        b.board[5,3] = p
+    }
+    or
+    {
+        b.board[3,6] = p
+        b.board[4,5] = p
+        b.board[5,4] = p
+        b.board[6,3] = p
+    }
+    // or
+    // wonDUpwards[b, p]
+    // or
+    // wonDDownwards[b, p]
 }
 
 // Defines a valid move
@@ -112,7 +737,7 @@ pred doNothing[pre: Board, post: Board] {
     some p: Player | won[pre, p]
 
     // Change nothing
-    all row: Int, col: Int | 
+    all row: Int, col: Int |
         post.board[row][col] = pre.board[row][col]
 }
 
@@ -123,7 +748,7 @@ pred traces {
     // All other states are reached by move or doNothing
     all b: Board | some Game.next[b] implies {
         one row, col: Int, p: Player | {
-            move[b, Game.next[b], row, col, p]            
+            move[b, Game.next[b], row, col, p]          
         }
         or
         doNothing[b, Game.next[b]]
