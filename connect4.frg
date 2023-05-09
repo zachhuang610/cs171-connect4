@@ -76,8 +76,637 @@ pred wonDDownwards[p: Player] {
 }
 
 // Defines the win condition (player wins horizontally, vertically, or diagonally)
+// pred won[p: Player] {
+//     wonH[p] or wonV[p] or wonDUpwards[p] or wonDDownwards[p]
+// }
+
 pred won[p: Player] {
-    wonH[p] or wonV[p] or wonDUpwards[p] or wonDDownwards[p]
+    // wonH[b, p]
+    // or
+    // wonV[b, p]
+    // or
+    {
+        Board.board[0,0] = p
+        Board.board[1,0] = p
+        Board.board[2,0] = p
+        Board.board[3,0] = p
+    }
+    or
+    {
+        Board.board[1,0] = p
+        Board.board[2,0] = p
+        Board.board[3,0] = p
+        Board.board[4,0] = p
+    }
+    or
+    {
+        Board.board[2,0] = p
+        Board.board[3,0] = p
+        Board.board[4,0] = p
+        Board.board[5,0] = p
+    }
+    or
+    {
+        Board.board[3,0] = p
+        Board.board[4,0] = p
+        Board.board[5,0] = p
+        Board.board[6,0] = p
+    }
+    or
+    {
+        Board.board[0,1] = p
+        Board.board[1,1] = p
+        Board.board[2,1] = p
+        Board.board[3,1] = p
+    }
+    or
+    {
+        Board.board[1,1] = p
+        Board.board[2,1] = p
+        Board.board[3,1] = p
+        Board.board[4,1] = p
+    }
+    or
+    {
+        Board.board[2,1] = p
+        Board.board[3,1] = p
+        Board.board[4,1] = p
+        Board.board[5,1] = p
+    }
+    or
+    {
+        Board.board[3,1] = p
+        Board.board[4,1] = p
+        Board.board[5,1] = p
+        Board.board[6,1] = p
+    }
+    or
+    {
+        Board.board[0,2] = p
+        Board.board[1,2] = p
+        Board.board[2,2] = p
+        Board.board[3,2] = p
+    }
+    or
+    {
+        Board.board[1,2] = p
+        Board.board[2,2] = p
+        Board.board[3,2] = p
+        Board.board[4,2] = p
+    }
+    or
+    {
+        Board.board[2,2] = p
+        Board.board[3,2] = p
+        Board.board[4,2] = p
+        Board.board[5,2] = p
+    }
+    or
+    {
+        Board.board[3,2] = p
+        Board.board[4,2] = p
+        Board.board[5,2] = p
+        Board.board[6,2] = p
+    }
+    or
+    {
+        Board.board[0,3] = p
+        Board.board[1,3] = p
+        Board.board[2,3] = p
+        Board.board[3,3] = p
+    }
+    or
+    {
+        Board.board[1,3] = p
+        Board.board[2,3] = p
+        Board.board[3,3] = p
+        Board.board[4,3] = p
+    }
+    or
+    {
+        Board.board[2,3] = p
+        Board.board[3,3] = p
+        Board.board[4,3] = p
+        Board.board[5,3] = p
+    }
+    or
+    {
+        Board.board[3,3] = p
+        Board.board[4,3] = p
+        Board.board[5,3] = p
+        Board.board[6,3] = p
+    }
+    or
+    {
+        Board.board[0,4] = p
+        Board.board[1,4] = p
+        Board.board[2,4] = p
+        Board.board[3,4] = p
+    }
+    or
+    {
+        Board.board[1,4] = p
+        Board.board[2,4] = p
+        Board.board[3,4] = p
+        Board.board[4,4] = p
+    }
+    or
+    {
+        Board.board[2,4] = p
+        Board.board[3,4] = p
+        Board.board[4,4] = p
+        Board.board[5,4] = p
+    }
+    or
+    {
+        Board.board[3,4] = p
+        Board.board[4,4] = p
+        Board.board[5,4] = p
+        Board.board[6,4] = p
+    }
+    or
+    {
+        Board.board[0,5] = p
+        Board.board[1,5] = p
+        Board.board[2,5] = p
+        Board.board[3,5] = p
+    }
+    or
+    {
+        Board.board[1,5] = p
+        Board.board[2,5] = p
+        Board.board[3,5] = p
+        Board.board[4,5] = p
+    }
+    or
+    {
+        Board.board[2,5] = p
+        Board.board[3,5] = p
+        Board.board[4,5] = p
+        Board.board[5,5] = p
+    }
+    or
+    {
+        Board.board[3,5] = p
+        Board.board[4,5] = p
+        Board.board[5,5] = p
+        Board.board[6,5] = p
+    }
+    or
+    {
+        Board.board[0,6] = p
+        Board.board[1,6] = p
+        Board.board[2,6] = p
+        Board.board[3,6] = p
+    }
+    or
+    {
+        Board.board[1,6] = p
+        Board.board[2,6] = p
+        Board.board[3,6] = p
+        Board.board[4,6] = p
+    }
+    or
+    {
+        Board.board[2,6] = p
+        Board.board[3,6] = p
+        Board.board[4,6] = p
+        Board.board[5,6] = p
+    }
+    or
+    {
+        Board.board[3,6] = p
+        Board.board[4,6] = p
+        Board.board[5,6] = p
+        Board.board[6,6] = p
+    }
+    or
+    //Horizontal
+    {
+        Board.board[0,0] = p
+        Board.board[0,1] = p
+        Board.board[0,2] = p
+        Board.board[0,3] = p
+    }
+    or
+    {
+        Board.board[0,1] = p
+        Board.board[0,2] = p
+        Board.board[0,3] = p
+        Board.board[0,4] = p
+    }
+    or
+    {
+        Board.board[0,2] = p
+        Board.board[0,3] = p
+        Board.board[0,4] = p
+        Board.board[0,5] = p
+    }
+    or
+    {
+        Board.board[0,3] = p
+        Board.board[0,4] = p
+        Board.board[0,5] = p
+        Board.board[0,6] = p
+    }
+    or
+    {
+        Board.board[1,0] = p
+        Board.board[1,1] = p
+        Board.board[1,2] = p
+        Board.board[1,3] = p
+    }
+    or
+    {
+        Board.board[1,1] = p
+        Board.board[1,2] = p
+        Board.board[1,3] = p
+        Board.board[1,4] = p
+    }
+    or
+    {
+        Board.board[1,2] = p
+        Board.board[1,3] = p
+        Board.board[1,4] = p
+        Board.board[1,5] = p
+    }
+    or
+    {
+        Board.board[1,3] = p
+        Board.board[1,4] = p
+        Board.board[1,5] = p
+        Board.board[1,6] = p
+    }
+    or
+    {
+        Board.board[2,0] = p
+        Board.board[2,1] = p
+        Board.board[2,2] = p
+        Board.board[2,3] = p
+    }
+    or
+    {
+        Board.board[2,1] = p
+        Board.board[2,2] = p
+        Board.board[2,3] = p
+        Board.board[2,4] = p
+    }
+    or
+    {
+        Board.board[2,2] = p
+        Board.board[2,3] = p
+        Board.board[2,4] = p
+        Board.board[2,5] = p
+    }
+    or
+    {
+        Board.board[2,3] = p
+        Board.board[2,4] = p
+        Board.board[2,5] = p
+        Board.board[2,6] = p
+    }
+    or
+    {
+        Board.board[3,0] = p
+        Board.board[3,1] = p
+        Board.board[3,2] = p
+        Board.board[3,3] = p
+    }
+    or
+    {
+        Board.board[3,1] = p
+        Board.board[3,2] = p
+        Board.board[3,3] = p
+        Board.board[3,4] = p
+    }
+    or
+    {
+        Board.board[3,2] = p
+        Board.board[3,3] = p
+        Board.board[3,4] = p
+        Board.board[3,5] = p
+    }
+    or
+    {
+        Board.board[3,3] = p
+        Board.board[3,4] = p
+        Board.board[3,5] = p
+        Board.board[3,6] = p
+    }
+    or
+    {
+        Board.board[4,0] = p
+        Board.board[4,1] = p
+        Board.board[4,2] = p
+        Board.board[4,3] = p
+    }
+    or
+    {
+        Board.board[4,1] = p
+        Board.board[4,2] = p
+        Board.board[4,3] = p
+        Board.board[4,4] = p
+    }
+    or
+    {
+        Board.board[4,2] = p
+        Board.board[4,3] = p
+        Board.board[4,4] = p
+        Board.board[4,5] = p
+    }
+    or
+    {
+        Board.board[4,3] = p
+        Board.board[4,4] = p
+        Board.board[4,5] = p
+        Board.board[4,6] = p
+    }
+    or
+    {
+        Board.board[5,0] = p
+        Board.board[5,1] = p
+        Board.board[5,2] = p
+        Board.board[5,3] = p
+    }
+    or
+    {
+        Board.board[5,1] = p
+        Board.board[5,2] = p
+        Board.board[5,3] = p
+        Board.board[5,4] = p
+    }
+    or
+    {
+        Board.board[5,2] = p
+        Board.board[5,3] = p
+        Board.board[5,4] = p
+        Board.board[5,5] = p
+    }
+    or
+    {
+        Board.board[5,3] = p
+        Board.board[5,4] = p
+        Board.board[5,5] = p
+        Board.board[5,6] = p
+    }
+    or
+    {
+        Board.board[6,0] = p
+        Board.board[6,1] = p
+        Board.board[6,2] = p
+        Board.board[6,3] = p
+    }
+    or
+    {
+        Board.board[6,1] = p
+        Board.board[6,2] = p
+        Board.board[6,3] = p
+        Board.board[6,4] = p
+    }
+    or
+    {
+        Board.board[6,2] = p
+        Board.board[6,3] = p
+        Board.board[6,4] = p
+        Board.board[6,5] = p
+    }
+    or
+    {
+        Board.board[6,3] = p
+        Board.board[6,4] = p
+        Board.board[6,5] = p
+        Board.board[6,6] = p
+    }
+    or
+    //Diagnoal
+    {
+        Board.board[0,0] = p
+        Board.board[1,1] = p
+        Board.board[2,2] = p
+        Board.board[3,3] = p
+    }
+    or
+    {
+        Board.board[1,0] = p
+        Board.board[2,1] = p
+        Board.board[3,2] = p
+        Board.board[4,3] = p
+    }
+    or
+    {
+        Board.board[2,0] = p
+        Board.board[3,1] = p
+        Board.board[4,2] = p
+        Board.board[5,3] = p
+    }
+    or
+    {
+        Board.board[3,0] = p
+        Board.board[4,1] = p
+        Board.board[5,2] = p
+        Board.board[6,3] = p
+    }
+    or
+    {
+        Board.board[0,1] = p
+        Board.board[1,2] = p
+        Board.board[2,3] = p
+        Board.board[3,4] = p
+    }
+    or
+    {
+        Board.board[1,1] = p
+        Board.board[2,2] = p
+        Board.board[3,3] = p
+        Board.board[4,4] = p
+    }
+    or
+    {
+        Board.board[2,1] = p
+        Board.board[3,2] = p
+        Board.board[4,3] = p
+        Board.board[5,4] = p
+    }
+    or
+    {
+        Board.board[3,1] = p
+        Board.board[4,2] = p
+        Board.board[5,3] = p
+        Board.board[6,4] = p
+    }
+    or
+    {
+        Board.board[0,2] = p
+        Board.board[1,3] = p
+        Board.board[2,4] = p
+        Board.board[3,5] = p
+    }
+    or
+    {
+        Board.board[1,2] = p
+        Board.board[2,3] = p
+        Board.board[3,4] = p
+        Board.board[4,5] = p
+    }
+    or
+    {
+        Board.board[2,2] = p
+        Board.board[3,3] = p
+        Board.board[4,4] = p
+        Board.board[5,5] = p
+    }
+    or
+    {
+        Board.board[3,2] = p
+        Board.board[4,3] = p
+        Board.board[5,4] = p
+        Board.board[6,5] = p
+    }
+    or
+    {
+        Board.board[0,3] = p
+        Board.board[1,4] = p
+        Board.board[2,5] = p
+        Board.board[3,6] = p
+    }
+    or
+    {
+        Board.board[1,3] = p
+        Board.board[2,4] = p
+        Board.board[3,5] = p
+        Board.board[4,6] = p
+    }
+    or
+    {
+        Board.board[2,3] = p
+        Board.board[3,4] = p
+        Board.board[4,5] = p
+        Board.board[5,6] = p
+    }
+    or
+    {
+        Board.board[3,3] = p
+        Board.board[4,4] = p
+        Board.board[5,5] = p
+        Board.board[6,6] = p
+    }
+    or
+    // Downwards diagonal
+    {
+        Board.board[0,3] = p
+        Board.board[1,2] = p
+        Board.board[2,1] = p
+        Board.board[3,0] = p
+    }
+    or
+    {
+        Board.board[1,3] = p
+        Board.board[2,2] = p
+        Board.board[3,1] = p
+        Board.board[4,0] = p
+    }
+    or
+    {
+        Board.board[2,3] = p
+        Board.board[3,2] = p
+        Board.board[4,1] = p
+        Board.board[5,0] = p
+    }
+    or
+    {
+        Board.board[3,3] = p
+        Board.board[4,2] = p
+        Board.board[5,1] = p
+        Board.board[6,0] = p
+    }
+    or
+    {
+        Board.board[0,4] = p
+        Board.board[1,3] = p
+        Board.board[2,2] = p
+        Board.board[3,1] = p
+    }
+    or
+    {
+        Board.board[1,4] = p
+        Board.board[2,3] = p
+        Board.board[3,2] = p
+        Board.board[4,1] = p
+    }
+    or
+    {
+        Board.board[2,4] = p
+        Board.board[3,3] = p
+        Board.board[4,2] = p
+        Board.board[5,1] = p
+    }
+    or
+    {
+        Board.board[3,4] = p
+        Board.board[4,3] = p
+        Board.board[5,2] = p
+        Board.board[6,1] = p
+    }
+    or
+    {
+        Board.board[0,5] = p
+        Board.board[1,4] = p
+        Board.board[2,3] = p
+        Board.board[3,2] = p
+    }
+    or
+    {
+        Board.board[1,5] = p
+        Board.board[2,4] = p
+        Board.board[3,3] = p
+        Board.board[4,2] = p
+    }
+    or
+    {
+        Board.board[2,5] = p
+        Board.board[3,4] = p
+        Board.board[4,3] = p
+        Board.board[5,2] = p
+    }
+    or
+    {
+        Board.board[3,5] = p
+        Board.board[4,4] = p
+        Board.board[5,3] = p
+        Board.board[6,2] = p
+    }
+    or
+    {
+        Board.board[0,6] = p
+        Board.board[1,5] = p
+        Board.board[2,4] = p
+        Board.board[3,3] = p
+    }
+    or
+    {
+        Board.board[1,6] = p
+        Board.board[2,5] = p
+        Board.board[3,4] = p
+        Board.board[4,3] = p
+    }
+    or
+    {
+        Board.board[2,6] = p
+        Board.board[3,5] = p
+        Board.board[4,4] = p
+        Board.board[5,3] = p
+    }
+    or
+    {
+        Board.board[3,6] = p
+        Board.board[4,5] = p
+        Board.board[5,4] = p
+        Board.board[6,3] = p
+    }
+    // or
+    // wonDUpwards[b, p]
+    // or
+    // wonDDownwards[b, p]
 }
 
 // Defines a valid move
