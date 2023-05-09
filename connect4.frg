@@ -741,6 +741,7 @@ pred doNothing {
 pred traces {
     // Start at initial state
 	always wellformed
+    init
 	some row, col: Int | {
 		{move[row,col,X] or move[row,col,O]} until {won[X] or won[O]}}
 }
