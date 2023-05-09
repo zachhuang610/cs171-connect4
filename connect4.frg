@@ -732,9 +732,9 @@ pred move[pre: Board, post: Board, row: Int, col: Int, p: Player] {
     } 
 }
 
-pred doNothing[pre: Board, post: Board] {
+pred doNothing[pre: Board, post: Board, p: Player] {
     // If some player has won
-    some p: Player | won[pre, p]
+    won[pre, p]
 
     // Change nothing
     all row: Int, col: Int |
@@ -747,11 +747,30 @@ pred traces {
 
     // All other states are reached by move or doNothing
     all b: Board | some Game.next[b] implies {
-        one row, col: Int, p: Player | {
-            move[b, Game.next[b], row, col, p]          
+        // all p: Player | not won[b, p] => {
+        //     some row, col: Int, p2: Player | {
+        //         move[b, Game.next[b], row, col, p2]
+        //     }
+        // }
+        // some row, col: Int, p: Player | {
+        //     move[b, Game.next[b], row, col, p]          
+        // // }
+        // some p: Player | won[b, p] => {
+        //     doNothing[b, Game.next[b], p]
+        // }
+        
+        some p: Player | {
+            won[b, p]
+                => {
+                    doNothing[b, Game.next[b], p]
+                }
+                else {
+                    some row, col: Int, p2: Player | {
+                        move[b, Game.next[b], row, col, p2]
+                    }
+                }
         }
-        or
-        doNothing[b, Game.next[b]]
+
     }
 }
 
@@ -762,4 +781,4 @@ pred traces {
 run {
     allWellformed
     traces
-} for 20 Board for {next is linear}
+} for 12 Board for {next is linear}
