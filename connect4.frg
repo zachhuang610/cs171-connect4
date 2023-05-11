@@ -742,38 +742,6 @@ pred doNothing[pre: Board, post: Board, p: Player] {
 }
 
 
-// Strategy One: Place Column by Column Starting by the Middle 
-pred columnsonly[player: Player, row: Int, col: Int, b: Board] {
-   
-   some b.board[subtract[row, 1]][3] implies (col = 3) 
-   
-//    else {
-//     some row2, col2: Int | {
-//         row = row2
-//         col = col2
-//     }
-//    }
-  
-//    ((col != 4) and (col != 5) and (col != 3)) => (col = 6)
-//    ((col != 4) and (col != 5) and (col != 3) and (col != 6)) => (col = 2)
-//    ((col != 4) and (col != 5) and (col != 3) and (col != 6) and (col != 2)) => (col = 7)
-//    ((col != 4) and (col != 5) and (col != 3) and (col != 6) and (col != 2) and (col != 7)) => (col = 1)
-
-}
-
-
-// Strategy Two: Place Rows by Row Starting from Left
-
-pred rowsonly[player: Player, row: Int, col: Int, b: Board] {
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 0)
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 1)
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 2)
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 3)
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 4)
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 5)
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 6)
-
-}
 
 pred traces {
     // Start at initial state
@@ -847,6 +815,7 @@ pred strategyone[b: board, g: Game] {
 
 run {
     allWellformed
+<<<<<<< Updated upstream
     traces 
 } for 1 Game, 12 Board for {next is linear}
 
@@ -858,3 +827,28 @@ run {
 // } for 20 Board for {next is linear}
 
 
+=======
+    traces
+} for 20 Board for {next is linear}
+
+
+// draw check for a draw where neither player sins
+// check how many boards we have 
+// #(Board) and seeing how many and what is the fastest time it takes for someone to win and what is the longest
+// time for someone to win 
+
+
+test suite for traces {
+    // If you have tests for this predicate, put them here!
+    test expect {
+        vacuityTest : {traces} is sat
+    }
+}
+
+some p: Player | {
+    (remainder[#{row, col: Int | some b.board[row][col]}, 2] = 1) => (p = X)
+    (remainder[#{row, col: Int | some b.board[row][col]}, 2] = 0) => (p = O)
+} 
+ 
+
+>>>>>>> Stashed changes
