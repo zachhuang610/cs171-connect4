@@ -792,15 +792,15 @@ pred traces {
         // some p: Player | won[b, p] => {
         //     doNothing[b, Game.next[b], p]
         // }
-        // some p: Player | won[b, p]  =>  {
-        //      doNothing[b, Game.next[b], p]
-        // } 
-        // else {     
+        some p: Player | won[b, p]  =>  {
+             doNothing[b, Game.next[b], p]
+        } 
+        else {     
          some row, col: Int, p2: Player | {
                 p2 = O implies {
                     //columnsonly[p2, row, col, b]
                     not {row = 0}
-                    some b.board[subtract[row, 1]][3] implies {col = 3}
+                    some b.board[subtract[row, 1]][col]
                 }
                 p2 = X implies {
                 // first strategy
@@ -813,11 +813,16 @@ pred traces {
                 //(row = 0 or one b.board[subtract[row, 1]][col]) implies (row = 0)
                 // columnsonly[p2, row, col, b]
                 // columnsonly[p2, row, col, b]
-                {row = 0 and col = 3} or { {not row = 0} and some b.board[subtract[row, 1]][3] implies {col = 3}}
+                    {row = 0}
+                    // or
+                    // {
+                    //     some b.board[subtract[row, 1]][col]
+                    // }
 
                 }
                 move[b, Game.next[b], row, col, p2]
-            } 
+            }
+        }
     }
 }
 
