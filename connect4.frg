@@ -734,11 +734,45 @@ pred move[pre: Board, post: Board, row: Int, col: Int, p: Player] {
 
 pred doNothing[pre: Board, post: Board, p: Player] {
     // If some player has won
-    won[pre, p]
+
 
     // Change nothing
     all row: Int, col: Int |
         post.board[row][col] = pre.board[row][col]
+}
+
+
+// Strategy One: Place Column by Column Starting by the Middle 
+pred columnsonly[player: Player, row: Int, col: Int, b: Board] {
+   
+   some b.board[subtract[row, 1]][3] implies (col = 3) 
+   
+//    else {
+//     some row2, col2: Int | {
+//         row = row2
+//         col = col2
+//     }
+//    }
+  
+//    ((col != 4) and (col != 5) and (col != 3)) => (col = 6)
+//    ((col != 4) and (col != 5) and (col != 3) and (col != 6)) => (col = 2)
+//    ((col != 4) and (col != 5) and (col != 3) and (col != 6) and (col != 2)) => (col = 7)
+//    ((col != 4) and (col != 5) and (col != 3) and (col != 6) and (col != 2) and (col != 7)) => (col = 1)
+
+}
+
+
+// Strategy Two: Place Rows by Row Starting from Left
+
+pred rowsonly[player: Player, row: Int, col: Int, b: Board] {
+    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 0)
+    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 1)
+    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 2)
+    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 3)
+    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 4)
+    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 5)
+    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 6)
+
 }
 
 pred traces {
@@ -758,27 +792,64 @@ pred traces {
         // some p: Player | won[b, p] => {
         //     doNothing[b, Game.next[b], p]
         // }
-        
-        some p: Player | {
-            won[b, p]
-                => {
-                    doNothing[b, Game.next[b], p]
+        // some p: Player | won[b, p]  =>  {
+        //      doNothing[b, Game.next[b], p]
+        // } 
+        // else {     
+         some row, col: Int, p2: Player | {
+                p2 = O implies {
+                    //columnsonly[p2, row, col, b]
+                    not {row = 0}
+                    some b.board[subtract[row, 1]][3] implies {col = 3}
                 }
-                else {
-                    some row, col: Int, p2: Player | {
-                        move[b, Game.next[b], row, col, p2]
-                    }
-                }
-        }
+                p2 = X implies {
+                // first strategy
+                // no b.board[0][3] implies (row = 0 and col = 3)
+                // (no b.board[1][3] and some b.board[0][3]) implies (col = 3 and row = 1)
+                // (no b.board[2][3] and some b.board[0][3] and some b.board[1][3]) implies (col = 3 and row = 2)
+                // (row = 0 or one b.board[subtract[row, 1]][3]) implies (col = 3)
 
+                // (row = 0 or one b.board[subtract[row, 1]][3]) implies (col = 2)
+                //(row = 0 or one b.board[subtract[row, 1]][col]) implies (row = 0)
+                // columnsonly[p2, row, col, b]
+                // columnsonly[p2, row, col, b]
+                {row = 0 and col = 3} or { {not row = 0} and some b.board[subtract[row, 1]][3] implies {col = 3}}
+
+                }
+                move[b, Game.next[b], row, col, p2]
+            } 
     }
 }
+
+
 
 // Example run 
 // (see tests for more, particularly test expects that check winning) – this 
 // run is really just for demonstration, and it's possible that no one wins yet
 // with 10 Board. We show that someone will win eventually in testing.
+pred strategyone[b: board, g: Game] {
+    // defensive strategy
+    // follow whatever the opponent does and calculate how many 
+
+    // Choose the center column. This column gives you the most options for 
+    // connecting four of your pieces in a row.
+   some row : Int | no b.board[row][3] => {
+       move[b,  Game.next[b], row, 3, X] or move[b,  Game.next[b], row, 3, O]
+    }
+
+}
+
+
 run {
     allWellformed
-    traces
-} for 12 Board for {next is linear}
+    traces 
+} for 1 Game, 12 Board for {next is linear}
+
+
+
+// run {
+//     allWellformed
+//     traces and strategyone[Board]
+// } for 20 Board for {next is linear}
+
+
