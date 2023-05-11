@@ -761,8 +761,65 @@ pred traces {
 
 
     // Strategy 1
-    // Black prioritizes placing tokens in spots that would already have black tokens adjacent.
+    // Black prioritizes placing tokens in spots that would already have black tokens adjacent or diagonal.
     // Red simply prioritizes building upwards by never going in row zero
+
+    // all b: Board | some Game.next[b] implies {
+    //     won[b] => {
+    //         doNothing[b, Game.next[b]]
+    //     } else {    
+    //      some row, col: Int, p: Player | {
+    //             p = O implies {
+    //                 {
+    //                     not {row = 0}
+    //                     some b.board[subtract[row, 1]][col]
+    //                 }
+
+    //             }
+    //             p = X implies {
+    //                 {
+    //                     row = 0
+    //                 }
+    //                 or
+    //                 {
+    //                     row = 0
+    //                     some b.board[row][subtract[col, 1]]
+    //                     b.board[row][subtract[col, 1]] = p
+    //                 }
+    //                 or
+    //                 {
+    //                     {not row = 0}
+    //                     {
+    //                         {
+    //                             some b.board[subtract[row, 1]][col]
+    //                             b.board[subtract[row, 1]][col] = p
+    //                         }
+    //                         or
+    //                         {
+    //                             some b.board[row][subtract[col, 1]]
+    //                             b.board[row][subtract[col, 1]] = p
+    //                         }
+    //                         or
+    //                         {
+    //                             some b.board[subtract[row, 1]][subtract[col, 1]]
+    //                             b.board[row][subtract[col, 1]] = p
+    //                         }
+    //                         or
+    //                         {
+    //                             some b.board[subtract[row, 1]][add[col, 1]]
+    //                             b.board[row][add[col, 1]] = p
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //             move[b, Game.next[b], row, col, p]
+    //         }
+    //     }
+    // }
+
+    // Strategy 2
+    // Black prioritizes placing tokens in spots that would already have black tokens adjacent or diagonal.
+    // Red plays a naive defensive strategy only placing tokens adjacent to existing black tokens, trying to "block" black from forming streaks.
 
     all b: Board | some Game.next[b] implies {
         won[b] => {
@@ -773,6 +830,31 @@ pred traces {
                     {
                         not {row = 0}
                         some b.board[subtract[row, 1]][col]
+                        not b.board[subtract[row, 1]][col] = p
+                    }
+                    or
+                    {
+                        {row = 0}
+                        some b.board[row][subtract[col, 1]]
+                        not b.board[row][subtract[col, 1]] = p
+                    }
+                    or
+                    {
+                        {row = 0}
+                        some b.board[row][add[col, 1]]
+                        not b.board[row][add[col, 1]] = p
+                    }
+                    or
+                    {
+                        not {row = 0}
+                        some b.board[subtract[row, 1]][subtract[col, 1]]
+                        not b.board[subtract[row, 1]][subtract[col, 1]] = p
+                    }
+                    or
+                    {
+                        not {row = 0}
+                        some b.board[subtract[row, 1]][add[col, 1]]
+                        not b.board[subtract[row, 1]][add[col, 1]] = p
                     }
 
                 }
@@ -799,6 +881,16 @@ pred traces {
                                 some b.board[row][subtract[col, 1]]
                                 b.board[row][subtract[col, 1]] = p
                             }
+                            or
+                            {
+                                some b.board[subtract[row, 1]][subtract[col, 1]]
+                                b.board[row][subtract[col, 1]] = p
+                            }
+                            or
+                            {
+                                some b.board[subtract[row, 1]][add[col, 1]]
+                                b.board[row][add[col, 1]] = p
+                            }
                             
                         }
                         
@@ -810,9 +902,8 @@ pred traces {
         }
     }
 
-    // Strategy 2
-
     // Strategy 3
+
 
 }
 
