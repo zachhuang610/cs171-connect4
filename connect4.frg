@@ -27,6 +27,15 @@ pred allWellformed {
     }
 }
 
+//Checks that boards are valid
+pred allValidBoard {
+    all b: Board {
+        {#{row, col: Int | b.board[row][col] = X} = #{row, col: Int | b.board[row][col] = O}}
+        or
+        {#{row, col: Int | b.board[row][col] = X} = add[#{row, col: Int | b.board[row][col] = O}, 1]}
+    }
+}
+
 // Checks if it is X's turn (X starts)
 pred Xturn[b: Board] {
     // Same number of X and O on board
@@ -747,17 +756,17 @@ pred traces {
     starting[Game.initialState]
 
     // All other states are reached by move or doNothing
-    // all b: Board | some Game.next[b] implies {
+    all b: Board | some Game.next[b] implies {
         
-    //     won[b] => {
-    //         doNothing[b, Game.next[b]]
-    //     } else {
-    //         some row, col: Int, p: Player | {
-    //             move[b, Game.next[b], row, col, p]
-    //         }
-    //     }
+        won[b] => {
+            doNothing[b, Game.next[b]]
+        } else {
+            some row, col: Int, p: Player | {
+                move[b, Game.next[b], row, col, p]
+            }
+        }
 
-    // }
+    }
 
 
     // Strategy 1
@@ -821,89 +830,6 @@ pred traces {
     // Black prioritizes placing tokens in spots that would already have black tokens adjacent or diagonal.
     // Red plays a naive defensive strategy only placing tokens adjacent to existing black tokens, trying to "block" black from forming streaks.
 
-    all b: Board | some Game.next[b] implies {
-        won[b] => {
-            doNothing[b, Game.next[b]]
-        } else {    
-         some row, col: Int, p: Player | {
-                p = O implies {
-                    {
-                        not {row = 0}
-                        some b.board[subtract[row, 1]][col]
-                        not b.board[subtract[row, 1]][col] = p
-                    }
-                    or
-                    {
-                        {row = 0}
-                        some b.board[row][subtract[col, 1]]
-                        not b.board[row][subtract[col, 1]] = p
-                    }
-                    or
-                    {
-                        {row = 0}
-                        some b.board[row][add[col, 1]]
-                        not b.board[row][add[col, 1]] = p
-                    }
-                    or
-                    {
-                        not {row = 0}
-                        some b.board[subtract[row, 1]][subtract[col, 1]]
-                        not b.board[subtract[row, 1]][subtract[col, 1]] = p
-                    }
-                    or
-                    {
-                        not {row = 0}
-                        some b.board[subtract[row, 1]][add[col, 1]]
-                        not b.board[subtract[row, 1]][add[col, 1]] = p
-                    }
-
-                }
-                p = X implies {
-                    {
-                        row = 0
-                    }
-                    or
-                    {
-                        row = 0
-                        some b.board[row][subtract[col, 1]]
-                        b.board[row][subtract[col, 1]] = p
-                    }
-                    or
-                    {
-                        {not row = 0}
-                        {
-                            {
-                                some b.board[subtract[row, 1]][col]
-                                b.board[subtract[row, 1]][col] = p
-                            }
-                            or
-                            {
-                                some b.board[row][subtract[col, 1]]
-                                b.board[row][subtract[col, 1]] = p
-                            }
-                            or
-                            {
-                                some b.board[subtract[row, 1]][subtract[col, 1]]
-                                b.board[row][subtract[col, 1]] = p
-                            }
-                            or
-                            {
-                                some b.board[subtract[row, 1]][add[col, 1]]
-                                b.board[row][add[col, 1]] = p
-                            }
-                            
-                        }
-                        
-
-                    }
-                }
-                move[b, Game.next[b], row, col, p]
-            }
-        }
-    }
-
-    // Strategy 3
-
     // all b: Board | some Game.next[b] implies {
     //     won[b] => {
     //         doNothing[b, Game.next[b]]
@@ -911,18 +837,35 @@ pred traces {
     //      some row, col: Int, p: Player | {
     //             p = O implies {
     //                 {
-    //                     // not first column and there's something to the left and its not theirs
-    //                     not {col = 0}
-    //                     some b.board[row][subtract[col, 1]] 
+    //                     not {row = 0}
+    //                     some b.board[subtract[row, 1]][col]
+    //                     not b.board[subtract[row, 1]][col] = p
+    //                 }
+    //                 or
+    //                 {
+    //                     {row = 0}
+    //                     some b.board[row][subtract[col, 1]]
     //                     not b.board[row][subtract[col, 1]] = p
     //                 }
     //                 or
-    //                 {   
-    //                     // it is first column dn there is something there
-    //                     {col = 0}
-    //                     some b.board[subtract[row]][col]
-    //                     not b.board[subtract[row, 1]][col] = p
+    //                 {
+    //                     {row = 0}
+    //                     some b.board[row][add[col, 1]]
+    //                     not b.board[row][add[col, 1]] = p
     //                 }
+    //                 or
+    //                 {
+    //                     not {row = 0}
+    //                     some b.board[subtract[row, 1]][subtract[col, 1]]
+    //                     not b.board[subtract[row, 1]][subtract[col, 1]] = p
+    //                 }
+    //                 or
+    //                 {
+    //                     not {row = 0}
+    //                     some b.board[subtract[row, 1]][add[col, 1]]
+    //                     not b.board[subtract[row, 1]][add[col, 1]] = p
+    //                 }
+
     //             }
     //             p = X implies {
     //                 {
@@ -968,7 +911,8 @@ pred traces {
     //     }
     // }
 
-     
+    // Strategy 3
+
 
 }
 
@@ -1031,57 +975,33 @@ pred strategyone[b: board, g: Game] {
 // } for 20 Board for {next is linear}
 
 
+// TODO: Check that it is possible to win
+// TODO: Check that it is possible to draw / not win in the number of boards in the trace
+// TODO: Check validMoves -- DONE
 
-// draw check for a draw where neither player sins
-// check how many boards we have 
-// #(Board) and seeing how many and what is the fastest time it takes for someone to win and what is the longest
-// time for someone to win 
-
-
-// pred blackwins {
-    
-//     #{remainder[#{Board}, 2] = 0} > #{remainder[#{Board}, 2] = 1}
-
-//        // #(remainder[#{row, col: Int | some b.board[row][col]}, 2] = 1) > #(remainder[#{row, col: Int | some b.board[row][col]}, 2] = 0) => (p = O)
-     
-// }
-
-pred boardsMoving { 
-    some b: Board {
-        
-    }
-}
-
-pred possible_win { 
-    some b1, b2: Board {
-        #{row, col: Int | b1.board[row][col]} = #{row, col: Int | b2.board[row][col]}
-    }
-}
-// possible to win
-
-// possible to draw
-
-// Packages wellformed into a pred applying to all Boards, for ease of reference
-
-
-pred allValidBoard {
-    all b: Board {
-        {#{row, col: Int | b.board[row][col] = X} = #{row, col: Int | b.board[row][col] = O}}
-        or
-        {#{row, col: Int | b.board[row][col] = X} = add[#{row, col: Int | b.board[row][col] = O}, 1]}
+pred gameEnds { 
+    some disj b1, b2: Board {   
+        #{row, col: Int | one b1.board[row][col]} = #{row, col: Int | one b2.board[row][col]}
     }
 }
 
 test expect {
-    // If you have tests for this predicate, put them here!
-    possibleGametoEnd : {
+    validMoves: {
         allWellformed
         allValidBoard
     } for 20 Board for {next is linear} is sat
+
+    gameEnding: {
+        allWellformed
+        allValidBoard
+        gameEnds
+        traces
+    } for 20 Board for {next is linear} is sat
+
+    gameNotEnding: {
+        allWellformed
+        allValidBoard
+        gameEnds
+        traces
+    } for 4 Board for {next is linear} is unsat
 }
-
-
-
-
-
-
