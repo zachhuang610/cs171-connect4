@@ -759,17 +759,27 @@ pred traces {
         //     doNothing[b, Game.next[b], p]
         // }
         
-        some p: Player | {
-            won[b, p]
-                => {
-                    doNothing[b, Game.next[b], p]
-                }
-                else {
-                    some row, col: Int, p2: Player | {
-                        move[b, Game.next[b], row, col, p2]
-                    }
-                }
+        some p: Player | won[b, p] => {
+            doNothing[b, Game.next[b], p]
+            // won[b, p1]
+            //     => {
+            //         doNothing[b, Game.next[b], p1]
+            //     }
+            //     else {
+            //         some row, col: Int, p: Player | {
+            //             move[b, Game.next[b], row, col, p]
+            //         }
+            //     }
+        } else {
+            some row, col: Int | {
+                move[b, Game.next[b], row, col, p]
+            }
         }
+        // some p1, p2: Player | (not won[b, p1]) and (not won[b, p2]) => {
+        //     some row, col: Int, p3: Player | {
+        //         move[b, Game.next[b], row, col, p3]
+        //     }
+        // }
 
     }
 }
@@ -781,4 +791,4 @@ pred traces {
 run {
     allWellformed
     traces
-} for 12 Board for {next is linear}
+} for 20 Board for {next is linear}
