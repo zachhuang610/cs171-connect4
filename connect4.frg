@@ -620,17 +620,17 @@ pred traces {
     starting[Game.initialState]
 
     // All other states are reached by move or doNothing
-    // all b: Board | some Game.next[b] implies {
+    all b: Board | some Game.next[b] implies {
         
-    //     won[b] => {
-    //         doNothing[b, Game.next[b]]
-    //     } else {
-    //         some row, col: Int, p: Player | {
-    //             move[b, Game.next[b], row, col, p]
-    //         }
-    //     }
+        won[b] => {
+            doNothing[b, Game.next[b]]
+        } else {
+            some row, col: Int, p: Player | {
+                move[b, Game.next[b], row, col, p]
+            }
+        }
 
-    // }
+    }
 
 
     // Strategy 1
@@ -775,7 +775,9 @@ pred traces {
     //     }
     // }
 
-    // // Strategy 3
+    // Strategy 3
+    // Red plays a naive defensive strategy only placing tokens adjacent to existing black tokens, trying to "block" black from forming streaks.
+    // Black plays a strategy where it starts in the center and tries to build outwards. This was inspired by the guaranteed winning strategy for normal connect 4.
     // all b: Board | some Game.next[b] implies {
     //     won[b] => {
     //         doNothing[b, Game.next[b]]
@@ -849,73 +851,40 @@ pred traces {
     // }
 
     // Strategy 4
-
-    all b: Board | some Game.next[b] implies {
-        won[b] => {
-            doNothing[b, Game.next[b]]
-        } else {    
-         some row, col: Int, p: Player | {
-			    // p = O implies {
-                //     {
-                //         not {row = 0}
-                //         some b.board[subtract[row, 1]][col]
-                //         not b.board[subtract[row, 1]][col] = p
-                //     }
-                //     or
-                //     {
-                //         {row = 0}
-                //         some b.board[row][subtract[col, 1]]
-                //         not b.board[row][subtract[col, 1]] = p
-                //     }
-                //     or
-                //     {
-                //         {row = 0}
-                //         some b.board[row][add[col, 1]]
-                //         not b.board[row][add[col, 1]] = p
-                //     }
-                //     or
-                //     {
-                //         not {row = 0}
-                //         some b.board[subtract[row, 1]][subtract[col, 1]]
-                //         not b.board[subtract[row, 1]][subtract[col, 1]] = p
-                //     }
-                //     or
-                //     {
-                //         not {row = 0}
-                //         some b.board[subtract[row, 1]][add[col, 1]]
-                //         not b.board[subtract[row, 1]][add[col, 1]] = p
-                //     }
-
-                // }
-                p = X implies {
-                    {
-                        {
-                            no b.board[row][subtract[col, 1]]
-                            no b.board[row][add[col, 1]]
-                            no b.board[subtract[row, 1]][subtract[col, 1]]
-                            no b.board[subtract[row, 1]][add[col, 1]]
-                            // not b.board[row][subtract[col, 1]] = p
-                        }
-                        or
-                        {
-							{
-								some b.board[row][subtract[col, 1]] or 
-								some b.board[row][add[col, 1]] or
-								some b.board[subtract[row, 1]][subtract[col, 1]] or
-								some b.board[subtract[row, 1]][add[col, 1]] 
-							} implies {
-								not b.board[row][subtract[col, 1]] = p and
-								not b.board[row][add[col, 1]] = p and
-								not b.board[subtract[row, 1]][subtract[col, 1]] = p and 
-								not b.board[subtract[row, 1]][add[col, 1]] = p
-							}
-                        }
-                    }
-                }
-                move[b, Game.next[b], row, col, p]
-            }
-        }
-    }
+    // Black tries to play sparsely, just taking up random spaces that are not connected in order to limit the ways Red could win.
+//     all b: Board | some Game.next[b] implies {
+//         won[b] => {
+//             doNothing[b, Game.next[b]]
+//         } else {    
+//          some row, col: Int, p: Player | {
+//                 p = X implies {
+//                     {
+//                         {
+//                             no b.board[row][subtract[col, 1]]
+//                             no b.board[row][add[col, 1]]
+//                             no b.board[subtract[row, 1]][subtract[col, 1]]
+//                             no b.board[subtract[row, 1]][add[col, 1]]
+//                         }
+//                         or
+//                         {
+// 							{
+// 								some b.board[row][subtract[col, 1]] or 
+// 								some b.board[row][add[col, 1]] or
+// 								some b.board[subtract[row, 1]][subtract[col, 1]] or
+// 								some b.board[subtract[row, 1]][add[col, 1]] 
+// 							} implies {
+// 								not b.board[row][subtract[col, 1]] = p and
+// 								not b.board[row][add[col, 1]] = p and
+// 								not b.board[subtract[row, 1]][subtract[col, 1]] = p and 
+// 								not b.board[subtract[row, 1]][add[col, 1]] = p
+// 							}
+//                         }
+//                     }
+//                 }
+//                 move[b, Game.next[b], row, col, p]
+//             }
+//         }
+//     }
 
 
 }
@@ -930,14 +899,7 @@ pred traces {
 // } for 20 Board for {next is linear}
 
 
-// TODO: Check that it is possible to win
-// TODO: Check that it is possible to draw / not win in the number of boards in the trace
-// TODO: Check validMoves -- DONE
-
-pred gameEnds { 
-    // some disj b1, b2: Board {   
-    //     #{row, col: Int | one b1.board[row][col]} = #{row, col: Int | one b2.board[row][col]}
-    // }
+pred gameEnds {
     possibleToWin or possibleToDraw
 }
 
