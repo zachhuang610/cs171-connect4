@@ -1,7 +1,7 @@
 # cs171-connect4
 Connect4 Forge Model as part of CS171 Final Project
 
-Design Decisions
+# Design Decisions
 When we set off to model Connect 4, we had hoped to model a game we were not only familiar with but also interested in. Our base goal was to implement a functioning model that accurately depicts how a game of Connect 4 is played, sticking true to its rules and policies. Our second goal was to compare and observe different strategies employed when playing the game. We knew that Connect 4 is a solved game, and were intrigued by the different combinations of strategies and how they can affect the outcome of the game. 
 
 For the base of the game, we began with implementing a model in full forge. After finishing the initial implementation, we realized that temporal forge would be more beneficial to our goals of implementing strategies. The rationale behind experimenting with temporal forge was to maintain a foundation that is most friendly to employing game strategies. Using temporal functionality, in theory, would have made it more user-friendly to implement and write different game strategies as we transition from one state to the other, and detect when a game reaches a winning or draw state. Thus, we would be unable to visually trace how the board is moving and whether the strategies we coded were being employed correctly and successfully. We pivoted to reimplementing our model in temporal forge, but were ultimately unsuccessful in getting the model to work. The temporal forge model was able to provide winning instances for Connect 4, but the traces did not properly show each move or follow the turn-based play of the game. Due to time constraints, we switched back to our old model and figured out ways to modify our traces predicate in order to implement strategies for the different players of the game. The non-temporal implementation allowed us to view different boards using our visualizer and track the different moves each of the players was making.
@@ -12,7 +12,7 @@ Our traces start the game by defining a Game’s initial state. Then, we look at
 
 
 
-Challenges
+# Challenges
 
 Our biggest challenge with the model was the traces predicate. We spent a lot of time trying to figure out how to get the game to stop move transitions once a player had won the game. The main reason this predicate was not working for us was the structure we were using, where our if else statement was not truly constraining movement if a player had won. Once we figured this issue out, with the help of Professor Nelson and the TAs, we were able to make much more progress with developing strategies.
 
@@ -22,7 +22,7 @@ The final challenges we had were focused on the strategy comparison and the boar
 
 
 
-What was unrealistic
+# What was unrealistic
 
 When we set off to complete the project, we went in knowing that Connect 4 is a solved game. We had hoped to be able to employ that winning strategy, however, we realized that was unrealistic. The solved strategy not only places pieces in an organized manner but also requires keeping track of the other player’s moves and blocking them when they are about to make a winning move. Keeping track of this many boards and combinations was not feasible in our application, especially without implementing some sort of a search algorithm. In the beginning, we had even hoped to make a Connect 4 game that is flexible with dimensions and board sizes, and initially started with a 7 x 7 board which proved to be extremely difficult to test and run due to the large size. Our compromise was only using a 6 x 7, which is the true size of Connect 4 in real life, that we were eventually able to test by creating 43 boards, which is the most number of boards the game would possibly run for. The large scope of the game made it more difficult to be able to use Forge to compare strategies using forge testing. Therefore, we chose to rely on our visualizations to compare these strategies.
 
@@ -30,7 +30,7 @@ When first defining our project, our final goal was to even explore a 3 dimensio
 
 
 
-Future work
+# Future work
 
 For future work, I think one approach we can take on is revisiting our temporal model and fixing the bugs we found there. Spending more time fixing the temporal model can open up more testing opportunities and allow us to have more concrete comparisons between strategies that we can visualize using our non-temporal model and then run using our temporal model. It would also allow us to implement more complex strategies, as the strategies be programmed to respond to each move more easily.
 
