@@ -775,7 +775,7 @@ pred traces {
     //     }
     // }
 
-    // Strategy 3
+    // // Strategy 3
     // all b: Board | some Game.next[b] implies {
     //     won[b] => {
     //         doNothing[b, Game.next[b]]
@@ -896,40 +896,19 @@ pred traces {
                             no b.board[subtract[row, 1]][add[col, 1]]
                             // not b.board[row][subtract[col, 1]] = p
                         }
-                        // or
-                        // {
-                        //     no b.board[row][add[col, 1]]
-                        //     // b.board[row][add[col, 1]] = p
-                        // }
-                        // or
-                        // {
-                        //     no b.board[subtract[row, 1]][subtract[col, 1]]
-                        //     // b.board[row][subtract[col, 1]] = p
-                        // }
-                        // or
-                        // {
-                        //     no b.board[subtract[row, 1]][add[col, 1]]
-                        //     // b.board[row][add[col, 1]] = p
-                        // }
                         or
                         {
-                            some b.board[row][subtract[col, 1]]
-                            not b.board[row][subtract[col, 1]] = p
-                        }
-                        or
-                        {
-                            some b.board[row][add[col, 1]]
-                            not b.board[row][add[col, 1]] = p
-                        }
-                        or
-                        {
-                            some b.board[subtract[row, 1]][subtract[col, 1]]
-                            not b.board[subtract[row, 1]][subtract[col, 1]] = p
-                        }
-                        or
-                        {
-                            some b.board[subtract[row, 1]][add[col, 1]]
-                            not b.board[subtract[row, 1]][add[col, 1]] = p
+							{
+								some b.board[row][subtract[col, 1]] or 
+								some b.board[row][add[col, 1]] or
+								some b.board[subtract[row, 1]][subtract[col, 1]] or
+								some b.board[subtract[row, 1]][add[col, 1]] 
+							} implies {
+								not b.board[row][subtract[col, 1]] = p and
+								not b.board[row][add[col, 1]] = p and
+								not b.board[subtract[row, 1]][subtract[col, 1]] = p and 
+								not b.board[subtract[row, 1]][add[col, 1]] = p
+							}
                         }
                     }
                 }
@@ -938,55 +917,6 @@ pred traces {
         }
     }
 
-
-}
-
-// Strategy One: Place Column by Column Starting by the Middle 
-pred columnsonly[player: Player, row: Int, col: Int, b: Board] {
-   
-   some b.board[subtract[row, 1]][3] implies (col = 3) 
-   
-//    else {
-//     some row2, col2: Int | {
-//         row = row2
-//         col = col2
-//     }
-//    }
-  
-//    ((col != 4) and (col != 5) and (col != 3)) => (col = 6)
-//    ((col != 4) and (col != 5) and (col != 3) and (col != 6)) => (col = 2)
-//    ((col != 4) and (col != 5) and (col != 3) and (col != 6) and (col != 2)) => (col = 7)
-//    ((col != 4) and (col != 5) and (col != 3) and (col != 6) and (col != 2) and (col != 7)) => (col = 1)
-
-}
-
-
-// Strategy Two: Place Rows by Row Starting from Left
-
-pred rowsonly[player: Player, row: Int, col: Int, b: Board] {
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 0)
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 1)
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 2)
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 3)
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 4)
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 5)
-    row = 0 or one b.board[subtract[row, 1]][col] implies (row = 6)
-
-}
-
-// Example run 
-// (see tests for more, particularly test expects that check winning) – this 
-// run is really just for demonstration, and it's possible that no one wins yet
-// with 10 Board. We show that someone will win eventually in testing.
-pred strategyone[b: board, g: Game] {
-    // defensive strategy
-    // follow whatever the opponent does and calculate how many 
-
-    // Choose the center column. This column gives you the most options for 
-    // connecting four of your pieces in a row.
-   some row : Int | no b.board[row][3] => {
-       move[b,  Game.next[b], row, 3, X] or move[b,  Game.next[b], row, 3, O]
-    }
 
 }
 
