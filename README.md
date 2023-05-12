@@ -32,7 +32,7 @@ When first defining our project, our final goal was to even explore a 3 dimensio
 
 # Future work
 
-For future work, I think one approach we can take on is revisiting our temporal model and fixing the bugs we found there. Spending more time fixing the temporal model can open up more testing opportunities and allow us to have more concrete comparisons between strategies that we can visualize using our non-temporal model and then run using our temporal model. It would also allow us to implement more complex strategies, as the strategies be programmed to respond to each move more easily.
+For future work, I think one approach we can take on is revisiting our temporal model and fixing the bugs we found there. Despite spending a significant amount of time reviewingand debugging, both in and out of TA hours, we were unable to get it to work. Fixing the temporal model would open up more testing opportunities and allow us to have more concrete comparisons between strategies that we can visualize using our non-temporal model and then run using our temporal model. It would also allow us to implement more complex strategies, as the strategies be programmed to respond to each move more easily.
 
 More future work can also include abstracting the Connect 4 model and allowing it to have more flexible and dynamic board sizes and winning sequences. That would happen through editing our win predicates and well-formed predicates to ensure they can accommodate different row and column sizes that can change according to a user. We would definitely want to improve our win function to use more generalized rules rather than the hardcoded solutions it currently uses.
 
