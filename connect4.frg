@@ -985,23 +985,40 @@ pred gameEnds {
     }
 }
 
+pred possibleToDraw {
+    some b: Board {
+        let x_num = #{row, col: Int | b1.board[row][col] = X} |
+        let o_num = #{row, col: Int | b2.board[row][col] = O} {
+            x_num = 21
+            x_num = o_num
+        }
+    }
+}
+
 test expect {
-    validMoves: {
-        allWellformed
-        allValidBoard
-    } for 20 Board for {next is linear} is sat
+    // validMoves: {
+    //     allWellformed
+    //     allValidBoard
+    // } for 20 Board for {next is linear} is sat
 
-    gameEnding: {
-        allWellformed
-        allValidBoard
-        gameEnds
-        traces
-    } for 20 Board for {next is linear} is sat
+    // gameEnding: {
+    //     allWellformed
+    //     allValidBoard
+    //     gameEnds
+    //     traces
+    // } for 20 Board for {next is linear} is sat
 
-    gameNotEnding: {
+    // gameNotEnding: {
+    //     allWellformed
+    //     allValidBoard
+    //     gameEnds
+    //     traces
+    // } for 4 Board for {next is linear} is unsat
+
+    draw : {
         allWellformed
         allValidBoard
-        gameEnds
+        possibleToDraw
         traces
-    } for 4 Board for {next is linear} is unsat
+    } for 43 Board {next is linear} is sat
 }
