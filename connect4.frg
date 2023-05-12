@@ -675,12 +675,12 @@ pred traces {
     //                         or
     //                         {
     //                             some b.board[subtract[row, 1]][subtract[col, 1]]
-    //                             b.board[row][subtract[col, 1]] = p
+    //                             b.board[subtract[row, 1]][subtract[col, 1]] = p
     //                         }
     //                         or
     //                         {
     //                             some b.board[subtract[row, 1]][add[col, 1]]
-    //                             b.board[row][add[col, 1]] = p
+    //                             b.board[subtract[row, 1]][add[col, 1]] = p
     //                         }
     //                     }
     //                 }
@@ -757,12 +757,12 @@ pred traces {
     //                         or
     //                         {
     //                             some b.board[subtract[row, 1]][subtract[col, 1]]
-    //                             b.board[row][subtract[col, 1]] = p
+    //                             b.board[subtract[row, 1]][subtract[col, 1]] = p
     //                         }
     //                         or
     //                         {
     //                             some b.board[subtract[row, 1]][add[col, 1]]
-    //                             b.board[row][add[col, 1]] = p
+    //                             b.board[subtract[row, 1]][add[col, 1]] = p
     //                         }
                             
     //                     }
@@ -776,77 +776,77 @@ pred traces {
     // }
 
     // Strategy 3
-    all b: Board | some Game.next[b] implies {
-        won[b] => {
-            doNothing[b, Game.next[b]]
-        } else {    
-         some row, col: Int, p: Player | {
-			    p = O implies {
-                    {
-                        not {row = 0}
-                        some b.board[subtract[row, 1]][col]
-                        not b.board[subtract[row, 1]][col] = p
-                    }
-                    or
-                    {
-                        {row = 0}
-                        some b.board[row][subtract[col, 1]]
-                        not b.board[row][subtract[col, 1]] = p
-                    }
-                    or
-                    {
-                        {row = 0}
-                        some b.board[row][add[col, 1]]
-                        not b.board[row][add[col, 1]] = p
-                    }
-                    or
-                    {
-                        not {row = 0}
-                        some b.board[subtract[row, 1]][subtract[col, 1]]
-                        not b.board[subtract[row, 1]][subtract[col, 1]] = p
-                    }
-                    or
-                    {
-                        not {row = 0}
-                        some b.board[subtract[row, 1]][add[col, 1]]
-                        not b.board[subtract[row, 1]][add[col, 1]] = p
-                    }
+    // all b: Board | some Game.next[b] implies {
+    //     won[b] => {
+    //         doNothing[b, Game.next[b]]
+    //     } else {    
+    //      some row, col: Int, p: Player | {
+	// 		    p = O implies {
+    //                 {
+    //                     not {row = 0}
+    //                     some b.board[subtract[row, 1]][col]
+    //                     not b.board[subtract[row, 1]][col] = p
+    //                 }
+    //                 or
+    //                 {
+    //                     {row = 0}
+    //                     some b.board[row][subtract[col, 1]]
+    //                     not b.board[row][subtract[col, 1]] = p
+    //                 }
+    //                 or
+    //                 {
+    //                     {row = 0}
+    //                     some b.board[row][add[col, 1]]
+    //                     not b.board[row][add[col, 1]] = p
+    //                 }
+    //                 or
+    //                 {
+    //                     not {row = 0}
+    //                     some b.board[subtract[row, 1]][subtract[col, 1]]
+    //                     not b.board[subtract[row, 1]][subtract[col, 1]] = p
+    //                 }
+    //                 or
+    //                 {
+    //                     not {row = 0}
+    //                     some b.board[subtract[row, 1]][add[col, 1]]
+    //                     not b.board[subtract[row, 1]][add[col, 1]] = p
+    //                 }
 
-                }
-                p = X implies {
-                    {
-                        col = 3
-                    }
-                    or
-                    {
-                        {not col = 3}
-                        {
-                            {
-                                some b.board[row][subtract[col, 1]]
-                                b.board[row][subtract[col, 1]] = p
-                            }
-                            or
-                            {
-                                some b.board[row][add[col, 1]]
-                                b.board[row][add[col, 1]] = p
-                            }
-                            or
-                            {
-                                some b.board[subtract[row, 1]][subtract[col, 1]]
-                                b.board[row][subtract[col, 1]] = p
-                            }
-                            or
-                            {
-                                some b.board[subtract[row, 1]][add[col, 1]]
-                                b.board[row][add[col, 1]] = p
-                            }
-                        }
-                    }
-                }
-                move[b, Game.next[b], row, col, p]
-            }
-        }
-    }
+    //             }
+    //             p = X implies {
+    //                 {
+    //                     col = 3
+    //                 }
+    //                 or
+    //                 {
+    //                     {not col = 3}
+    //                     {
+    //                         {
+    //                             some b.board[row][subtract[col, 1]]
+    //                             b.board[row][subtract[col, 1]] = p
+    //                         }
+    //                         or
+    //                         {
+    //                             some b.board[row][add[col, 1]]
+    //                             b.board[row][add[col, 1]] = p
+    //                         }
+    //                         or
+    //                         {
+    //                             some b.board[subtract[row, 1]][subtract[col, 1]]
+    //                             b.board[subtract[row, 1]][subtract[col, 1]] = p
+    //                         }
+    //                         or
+    //                         {
+    //                             some b.board[subtract[row, 1]][add[col, 1]]
+    //                             b.board[subtract[row, 1]][add[col, 1]] = p
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //             move[b, Game.next[b], row, col, p]
+    //         }
+    //     }
+    // }
 
     // Strategy 4
 
@@ -891,23 +891,26 @@ pred traces {
                     {
                         {
                             no b.board[row][subtract[col, 1]]
+                            no b.board[row][add[col, 1]]
+                            no b.board[subtract[row, 1]][subtract[col, 1]]
+                            no b.board[subtract[row, 1]][add[col, 1]]
                             // not b.board[row][subtract[col, 1]] = p
                         }
-                        or
-                        {
-                            no b.board[row][add[col, 1]]
-                            // b.board[row][add[col, 1]] = p
-                        }
-                        or
-                        {
-                            no b.board[subtract[row, 1]][subtract[col, 1]]
-                            // b.board[row][subtract[col, 1]] = p
-                        }
-                        or
-                        {
-                            no b.board[subtract[row, 1]][add[col, 1]]
-                            // b.board[row][add[col, 1]] = p
-                        }
+                        // or
+                        // {
+                        //     no b.board[row][add[col, 1]]
+                        //     // b.board[row][add[col, 1]] = p
+                        // }
+                        // or
+                        // {
+                        //     no b.board[subtract[row, 1]][subtract[col, 1]]
+                        //     // b.board[row][subtract[col, 1]] = p
+                        // }
+                        // or
+                        // {
+                        //     no b.board[subtract[row, 1]][add[col, 1]]
+                        //     // b.board[row][add[col, 1]] = p
+                        // }
                         or
                         {
                             some b.board[row][subtract[col, 1]]
@@ -921,12 +924,12 @@ pred traces {
                         or
                         {
                             some b.board[subtract[row, 1]][subtract[col, 1]]
-                            not b.board[row][subtract[col, 1]] = p
+                            not b.board[subtract[row, 1]][subtract[col, 1]] = p
                         }
                         or
                         {
                             some b.board[subtract[row, 1]][add[col, 1]]
-                            not b.board[row][add[col, 1]] = p
+                            not b.board[subtract[row, 1]][add[col, 1]] = p
                         }
                     }
                 }
