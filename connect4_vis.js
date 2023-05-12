@@ -44,7 +44,7 @@ function printState(stateAtom, xoffset, yoffset) {
 
 var xoffset = 0
 var yoffset = 0
-for(b = 0; b <= 20; b++) {  
+for(b = 0; b <= 45; b++) {  
   if(Board.atom("Board"+b) != null)
     printState(Board.atom("Board"+b), xoffset, yoffset)
   xoffset = xoffset + 90 

@@ -620,17 +620,17 @@ pred traces {
     starting[Game.initialState]
 
     // All other states are reached by move or doNothing
-    all b: Board | some Game.next[b] implies {
+    // all b: Board | some Game.next[b] implies {
         
-        won[b] => {
-            doNothing[b, Game.next[b]]
-        } else {
-            some row, col: Int, p: Player | {
-                move[b, Game.next[b], row, col, p]
-            }
-        }
+    //     won[b] => {
+    //         doNothing[b, Game.next[b]]
+    //     } else {
+    //         some row, col: Int, p: Player | {
+    //             move[b, Game.next[b], row, col, p]
+    //         }
+    //     }
 
-    }
+    // }
 
 
     // Strategy 1
@@ -776,6 +776,77 @@ pred traces {
     // }
 
     // Strategy 3
+    all b: Board | some Game.next[b] implies {
+        won[b] => {
+            doNothing[b, Game.next[b]]
+        } else {    
+         some row, col: Int, p: Player | {
+			    p = O implies {
+                    {
+                        not {row = 0}
+                        some b.board[subtract[row, 1]][col]
+                        not b.board[subtract[row, 1]][col] = p
+                    }
+                    or
+                    {
+                        {row = 0}
+                        some b.board[row][subtract[col, 1]]
+                        not b.board[row][subtract[col, 1]] = p
+                    }
+                    or
+                    {
+                        {row = 0}
+                        some b.board[row][add[col, 1]]
+                        not b.board[row][add[col, 1]] = p
+                    }
+                    or
+                    {
+                        not {row = 0}
+                        some b.board[subtract[row, 1]][subtract[col, 1]]
+                        not b.board[subtract[row, 1]][subtract[col, 1]] = p
+                    }
+                    or
+                    {
+                        not {row = 0}
+                        some b.board[subtract[row, 1]][add[col, 1]]
+                        not b.board[subtract[row, 1]][add[col, 1]] = p
+                    }
+
+                }
+                p = X implies {
+                    {
+                        col = 3
+                    }
+                    or
+                    {
+                        {not col = 3}
+                        {
+                            {
+                                some b.board[row][subtract[col, 1]]
+                                b.board[row][subtract[col, 1]] = p
+                            }
+                            or
+                            {
+                                some b.board[row][add[col, 1]]
+                                b.board[row][add[col, 1]] = p
+                            }
+                            or
+                            {
+                                some b.board[subtract[row, 1]][subtract[col, 1]]
+                                b.board[row][subtract[col, 1]] = p
+                            }
+                            or
+                            {
+                                some b.board[subtract[row, 1]][add[col, 1]]
+                                b.board[row][add[col, 1]] = p
+                            }
+                        }
+                    }
+                }
+                move[b, Game.next[b], row, col, p]
+            }
+        }
+    }	
 
 
 }
