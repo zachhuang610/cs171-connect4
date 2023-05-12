@@ -846,7 +846,94 @@ pred traces {
                 move[b, Game.next[b], row, col, p]
             }
         }
-    }	
+    }
+
+    // Strategy 4
+
+    all b: Board | some Game.next[b] implies {
+        won[b] => {
+            doNothing[b, Game.next[b]]
+        } else {    
+         some row, col: Int, p: Player | {
+			    // p = O implies {
+                //     {
+                //         not {row = 0}
+                //         some b.board[subtract[row, 1]][col]
+                //         not b.board[subtract[row, 1]][col] = p
+                //     }
+                //     or
+                //     {
+                //         {row = 0}
+                //         some b.board[row][subtract[col, 1]]
+                //         not b.board[row][subtract[col, 1]] = p
+                //     }
+                //     or
+                //     {
+                //         {row = 0}
+                //         some b.board[row][add[col, 1]]
+                //         not b.board[row][add[col, 1]] = p
+                //     }
+                //     or
+                //     {
+                //         not {row = 0}
+                //         some b.board[subtract[row, 1]][subtract[col, 1]]
+                //         not b.board[subtract[row, 1]][subtract[col, 1]] = p
+                //     }
+                //     or
+                //     {
+                //         not {row = 0}
+                //         some b.board[subtract[row, 1]][add[col, 1]]
+                //         not b.board[subtract[row, 1]][add[col, 1]] = p
+                //     }
+
+                // }
+                p = X implies {
+                    {
+                        {
+                            no b.board[row][subtract[col, 1]]
+                            // not b.board[row][subtract[col, 1]] = p
+                        }
+                        or
+                        {
+                            no b.board[row][add[col, 1]]
+                            // b.board[row][add[col, 1]] = p
+                        }
+                        or
+                        {
+                            no b.board[subtract[row, 1]][subtract[col, 1]]
+                            // b.board[row][subtract[col, 1]] = p
+                        }
+                        or
+                        {
+                            no b.board[subtract[row, 1]][add[col, 1]]
+                            // b.board[row][add[col, 1]] = p
+                        }
+                        or
+                        {
+                            some b.board[row][subtract[col, 1]]
+                            not b.board[row][subtract[col, 1]] = p
+                        }
+                        or
+                        {
+                            some b.board[row][add[col, 1]]
+                            not b.board[row][add[col, 1]] = p
+                        }
+                        or
+                        {
+                            some b.board[subtract[row, 1]][subtract[col, 1]]
+                            not b.board[row][subtract[col, 1]] = p
+                        }
+                        or
+                        {
+                            some b.board[subtract[row, 1]][add[col, 1]]
+                            not b.board[row][add[col, 1]] = p
+                        }
+                    }
+                }
+                move[b, Game.next[b], row, col, p]
+            }
+        }
+    }
 
 
 }
@@ -919,5 +1006,5 @@ test expect {
         allWellformed
         allValidBoard
         traces
-    } for 43 Board for {next is linear} is unsat 
+    } for 43 Board for {next is linear} is unsat
 }
