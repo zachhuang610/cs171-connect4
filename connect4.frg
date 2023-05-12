@@ -15,7 +15,7 @@ one sig Game {
 // Basic wellformedness check
 pred wellformed[b: Board] {
     all row, col: Int | {
-        (row < 0 or row > 6 or col < 0 or col > 6) implies {
+        (row < 0 or row > 5 or col < 0 or col > 6) implies {
             no b.board[row][col]
         }
     }
@@ -121,13 +121,6 @@ pred won[b: Board] {
         }
         or
         {
-            b.board[3,0] = p
-            b.board[4,0] = p
-            b.board[5,0] = p
-            b.board[6,0] = p
-        }
-        or
-        {
             b.board[0,1] = p
             b.board[1,1] = p
             b.board[2,1] = p
@@ -146,13 +139,6 @@ pred won[b: Board] {
             b.board[3,1] = p
             b.board[4,1] = p
             b.board[5,1] = p
-        }
-        or
-        {
-            b.board[3,1] = p
-            b.board[4,1] = p
-            b.board[5,1] = p
-            b.board[6,1] = p
         }
         or
         {
@@ -177,13 +163,6 @@ pred won[b: Board] {
         }
         or
         {
-            b.board[3,2] = p
-            b.board[4,2] = p
-            b.board[5,2] = p
-            b.board[6,2] = p
-        }
-        or
-        {
             b.board[0,3] = p
             b.board[1,3] = p
             b.board[2,3] = p
@@ -202,13 +181,6 @@ pred won[b: Board] {
             b.board[3,3] = p
             b.board[4,3] = p
             b.board[5,3] = p
-        }
-        or
-        {
-            b.board[3,3] = p
-            b.board[4,3] = p
-            b.board[5,3] = p
-            b.board[6,3] = p
         }
         or
         {
@@ -233,13 +205,6 @@ pred won[b: Board] {
         }
         or
         {
-            b.board[3,4] = p
-            b.board[4,4] = p
-            b.board[5,4] = p
-            b.board[6,4] = p
-        }
-        or
-        {
             b.board[0,5] = p
             b.board[1,5] = p
             b.board[2,5] = p
@@ -261,13 +226,6 @@ pred won[b: Board] {
         }
         or
         {
-            b.board[3,5] = p
-            b.board[4,5] = p
-            b.board[5,5] = p
-            b.board[6,5] = p
-        }
-        or
-        {
             b.board[0,6] = p
             b.board[1,6] = p
             b.board[2,6] = p
@@ -286,13 +244,6 @@ pred won[b: Board] {
             b.board[3,6] = p
             b.board[4,6] = p
             b.board[5,6] = p
-        }
-        or
-        {
-            b.board[3,6] = p
-            b.board[4,6] = p
-            b.board[5,6] = p
-            b.board[6,6] = p
         }
         or
         //Horizontal
@@ -464,34 +415,6 @@ pred won[b: Board] {
             b.board[5,6] = p
         }
         or
-        {
-            b.board[6,0] = p
-            b.board[6,1] = p
-            b.board[6,2] = p
-            b.board[6,3] = p
-        }
-        or
-        {
-            b.board[6,1] = p
-            b.board[6,2] = p
-            b.board[6,3] = p
-            b.board[6,4] = p
-        }
-        or
-        {
-            b.board[6,2] = p
-            b.board[6,3] = p
-            b.board[6,4] = p
-            b.board[6,5] = p
-        }
-        or
-        {
-            b.board[6,3] = p
-            b.board[6,4] = p
-            b.board[6,5] = p
-            b.board[6,6] = p
-        }
-        or
         //Diagnoal
         {
             b.board[0,0] = p
@@ -512,13 +435,6 @@ pred won[b: Board] {
             b.board[3,1] = p
             b.board[4,2] = p
             b.board[5,3] = p
-        }
-        or
-        {
-            b.board[3,0] = p
-            b.board[4,1] = p
-            b.board[5,2] = p
-            b.board[6,3] = p
         }
         or
         {
@@ -543,13 +459,6 @@ pred won[b: Board] {
         }
         or
         {
-            b.board[3,1] = p
-            b.board[4,2] = p
-            b.board[5,3] = p
-            b.board[6,4] = p
-        }
-        or
-        {
             b.board[0,2] = p
             b.board[1,3] = p
             b.board[2,4] = p
@@ -571,13 +480,6 @@ pred won[b: Board] {
         }
         or
         {
-            b.board[3,2] = p
-            b.board[4,3] = p
-            b.board[5,4] = p
-            b.board[6,5] = p
-        }
-        or
-        {
             b.board[0,3] = p
             b.board[1,4] = p
             b.board[2,5] = p
@@ -596,13 +498,6 @@ pred won[b: Board] {
             b.board[3,4] = p
             b.board[4,5] = p
             b.board[5,6] = p
-        }
-        or
-        {
-            b.board[3,3] = p
-            b.board[4,4] = p
-            b.board[5,5] = p
-            b.board[6,6] = p
         }
         or
         // Downwards diagonal
@@ -628,13 +523,6 @@ pred won[b: Board] {
         }
         or
         {
-            b.board[3,3] = p
-            b.board[4,2] = p
-            b.board[5,1] = p
-            b.board[6,0] = p
-        }
-        or
-        {
             b.board[0,4] = p
             b.board[1,3] = p
             b.board[2,2] = p
@@ -653,13 +541,6 @@ pred won[b: Board] {
             b.board[3,3] = p
             b.board[4,2] = p
             b.board[5,1] = p
-        }
-        or
-        {
-            b.board[3,4] = p
-            b.board[4,3] = p
-            b.board[5,2] = p
-            b.board[6,1] = p
         }
         or
         {
@@ -684,13 +565,6 @@ pred won[b: Board] {
         }
         or
         {
-            b.board[3,5] = p
-            b.board[4,4] = p
-            b.board[5,3] = p
-            b.board[6,2] = p
-        }
-        or
-        {
             b.board[0,6] = p
             b.board[1,5] = p
             b.board[2,4] = p
@@ -710,17 +584,6 @@ pred won[b: Board] {
             b.board[4,4] = p
             b.board[5,3] = p
         }
-        or
-        {
-            b.board[3,6] = p
-            b.board[4,5] = p
-            b.board[5,4] = p
-            b.board[6,3] = p
-        }
-    // or
-    // wonDUpwards[b, p]
-    // or
-    // wonDDownwards[b, p]
 }
 
 // Defines a valid move
@@ -985,5 +848,5 @@ test expect {
         allWellformed
         allValidBoard
         traces
-    } for 20 Board for {next is linear} is theorem
+    } for 43 Board for {next is linear} is unsat 
 }

@@ -22,20 +22,20 @@ function printValue(row, col, xoffset, yoffset, value) {
 }
 
 function printState(stateAtom, xoffset, yoffset) {
-  for (r = 0; r <= 7; r++) {
-    for (c = 0; c <= 7; c++) {
+  for (r = 0; r <= 6; r++) {
+    for (c = 0; c <= 6; c++) {
       printValue(r, c, xoffset, yoffset,
-                 stateAtom.board[7-r][7-c]
+                 stateAtom.board[6-r][6-c]
                  .toString().substring(0,1))  
     }
   }
   
   d3.select(svg)
     .append('rect')
-    .attr('x', xoffset+7)
+    .attr('x', xoffset)
     .attr('y', yoffset+1)
     .attr('width', 77)
-    .attr('height', 100)
+    .attr('height', 85)
     .attr('stroke-width', 2)
     .attr('stroke', 'black')
     .attr('fill', 'transparent');
