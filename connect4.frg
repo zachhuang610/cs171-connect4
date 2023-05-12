@@ -934,10 +934,62 @@ pred traces {
 // TODO: Check that it is possible to draw / not win in the number of boards in the trace
 // TODO: Check validMoves -- DONE
 
+pred gameEnds { 
+    // some disj b1, b2: Board {   
+    //     #{row, col: Int | one b1.board[row][col]} = #{row, col: Int | one b2.board[row][col]}
+    // }
+    possibleToWin or possibleToDraw
+}
+
+pred possibleToDraw {
+    one b: Board {
+        let x_num = #{row, col: Int | b.board[row][col] = X} |
+        let o_num = #{row, col: Int | b.board[row][col] = O} {
+            x_num = 21
+            x_num = o_num
+        }
+    }
+}
+
+pred possibleToWin {
+    some b: Board{ 
+        won[b]
+    }
+}
+
+
 test expect {
     validMoves: {
         allWellformed
         allValidBoard
         traces
-    } for 43 Board for {next is linear} is unsat
+    } for 43 Board for {next is linear} is sat
+
+    gameEnding: {
+        allWellformed
+        allValidBoard
+        gameEnds
+        traces
+    } for 43 Board for {next is linear} is sat
+
+    lessThanEightBoardSolution: {
+        allWellformed
+        allValidBoard
+        gameEnds
+        traces
+    } for 7 Board for {next is linear} is unsat
+
+    possibleToDrawTest : {
+        allWellformed
+        allValidBoard
+        possibleToDraw
+        traces
+    } for  43 Board for {next is linear} is sat
+
+    possibleToWinTest : {
+        allWellformed
+        allValidBoard
+        traces
+        possibleToWin
+    } for 20 Board for {next is linear} is sat
 }
